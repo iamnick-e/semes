@@ -510,7 +510,8 @@ sounds.forEach((s, i) => {
 
   copyBtn.addEventListener('click', e => {
     e.stopPropagation();
-    const url = `${location.origin}${location.pathname}#${s.name.toLowerCase().replace(/\s+/g,'-')}`;
+    const slug = s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const url  = `${location.origin}${location.pathname}#${slug}`;
     navigator.clipboard.writeText(url).catch(() => {});
     copyBtn.classList.add('copied');
     copyBtn.textContent = '✓';
@@ -609,6 +610,26 @@ function applyFilters() {
   noRes.style.display = visible === 0 ? 'block' : 'none';
   document.getElementById('no-results-query').textContent = q || cat;
 }
+
+// ─── Deep link: auto-play sound from URL hash ───
+function slugify(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+function handleHash() {
+  const hash = decodeURIComponent(location.hash.slice(1));
+  if (!hash) return;
+  const idx = sounds.findIndex(s => slugify(s.name) === hash);
+  if (idx === -1) return;
+  const card = grid.children[idx];
+  const s    = sounds[idx];
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  // Small delay so scroll settles before playing
+  setTimeout(() => {
+    triggerSound(s, idx, card, card.querySelector('.btn-play'), card.querySelector('.progress-fill'));
+  }, 400);
+}
+window.addEventListener('hashchange', handleHash);
+handleHash();
 
 // ─── Dark mode ───
 const themeBtn = document.getElementById('btn-theme');
