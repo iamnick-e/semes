@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semes — Instant Sound Buttons</title>
+  <style>
+    :root {
+      --bg: #f2f2f2;
+      --surface: #ffffff;
+      --border: #e0e0e0;
+      --text: #1a1a1a;
+      --muted: #888;
+      --accent: #ff5500;
+      --accent-dark: #cc4400;
+      --accent-light: #fff3ee;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1);
+      --radius: 8px;
+    }
+    [data-theme="dark"] {
+      --bg: #111318;
+      --surface: #1e2028;
+      --border: #2e3040;
+      --text: #e8e8ec;
+      --muted: #666;
+      --accent: #ff6622;
+      --accent-dark: #ff4400;
+      --accent-light: #2a1a10;
+      --shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* ─── Header ─── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.25rem;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: var(--shadow);
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.04em;
+      text-decoration: none;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    .search-wrap {
+      flex: 1;
+      max-width: 480px;
+      position: relative;
+    }
+    .search-wrap svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+    #search {
+      width: 100%;
+      padding: 0.5rem 1rem 0.5rem 2.2rem;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      background: var(--bg);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, background 0.2s;
+    }
+    #search:focus { border-color: var(--accent); background: var(--surface); }
+    #search::placeholder { color: var(--muted); }
+
+    .header-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    .btn-icon {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--border);
+      border-radius: 50%;
+      background: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text);
+      font-size: 1rem;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .btn-icon:hover { border-color: var(--accent); background: var(--accent-light); }
+
+    /* ─── Layout ─── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem;
+    }
+
+    /* ─── Filter bar ─── */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .filter-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-right: 0.25rem;
+    }
+    .chip {
+      padding: 0.3rem 0.85rem;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.12s;
+      user-select: none;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+    .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* ─── Sound Grid ─── */
+    #sound-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .sound-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.15s, border-color 0.15s, transform 0.1s;
+      position: relative;
+    }
+    .sound-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .sound-card.hidden { display: none; }
+
+    /* Play button */
+    .btn-play {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 0.9rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-align: left;
+      transition: background 0.1s, filter 0.1s;
+      width: 100%;
+      min-height: 56px;
+      letter-spacing: 0.01em;
+    }
+    .btn-play:hover { background: var(--accent-dark); }
+    .btn-play:active { filter: brightness(0.9); }
+    .btn-play.playing {
+      animation: flashPlay 0.4s ease;
+    }
+    @keyframes flashPlay {
+      0%   { filter: brightness(1.5); }
+      100% { filter: brightness(1); }
+    }
+
+    .play-tri {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .play-tri::after {
+      content: '';
+      display: block;
+      width: 0; height: 0;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 10px solid #fff;
+      margin-left: 2px;
+    }
+    .btn-play.playing .play-tri {
+      background: rgba(255,255,255,0.4);
+    }
+    .btn-play.playing .play-tri::after {
+      /* Pause bars */
+      border: none;
+      width: 9px; height: 10px;
+      background: linear-gradient(to right, #fff 3px, transparent 3px, transparent 6px, #fff 6px);
+      margin-left: 0;
+    }
+
+    .sound-name {
+      flex: 1;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.25;
+    }
+
+    /* Card footer */
+    .card-footer {
+      display: flex;
+      align-items: center;
+      padding: 0.35rem 0.6rem;
+      gap: 0.3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: var(--accent-light);
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .footer-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 0.2rem;
+    }
+    .btn-sm {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 0.85rem;
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+      transition: color 0.12s, background 0.12s;
+    }
+    .btn-sm:hover { color: var(--text); background: var(--bg); }
+    .btn-sm.liked { color: #e03050; }
+    .btn-sm.copied { color: #22aa55; }
+
+    /* Keyboard badge */
+    .kbd-badge {
+      position: absolute;
+      top: 6px; right: 7px;
+      font-size: 0.6rem;
+      font-family: monospace;
+      background: rgba(0,0,0,0.25);
+      color: rgba(255,255,255,0.85);
+      padding: 1px 5px;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      height: 2px;
+      background: rgba(255,255,255,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #fff;
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+
+    /* ─── No results ─── */
+    #no-results {
+      display: none;
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--muted);
+    }
+    #no-results svg { margin-bottom: 1rem; opacity: 0.3; }
+
+    /* ─── Currently playing banner ─── */
+    #now-playing {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--surface);
+      border: 1.5px solid var(--accent);
+      color: var(--text);
+      padding: 0.55rem 1.25rem;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s;
+      pointer-events: none;
+      z-index: 300;
+      white-space: nowrap;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    #now-playing.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    .np-dot {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: npPulse 1s ease infinite;
+    }
+    @keyframes npPulse {
+      0%,100% { transform: scale(1); opacity: 1; }
+      50%      { transform: scale(1.4); opacity: 0.6; }
+    }
+
+    /* ─── Stats row ─── */
+    .stats-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .stats-row span {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .stats-row strong { color: var(--text); }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 600px) {
+      #sound-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .logo { font-size: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="#">Semes</a>
+  <div class="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input type="search" id="search" placeholder="Search sounds…" autocomplete="off" spellcheck="false" />
+  </div>
+  <div class="header-right">
+    <button class="btn-icon" id="btn-theme" title="Toggle dark mode" aria-label="Toggle theme">🌙</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="filter-bar">
+    <span class="filter-label">Filter:</span>
+    <button class="chip active" data-cat="all">All</button>
+    <button class="chip" data-cat="viral">Viral</button>
+    <button class="chip" data-cat="meme">Meme</button>
+    <button class="chip" data-cat="game">Game</button>
+    <button class="chip" data-cat="tv">TV &amp; Film</button>
+    <button class="chip" data-cat="sfx">SFX</button>
+  </div>
+
+  <div class="stats-row">
+    <span><strong id="visible-count">32</strong> sounds</span>
+    <span>·</span>
+    <span>Press <kbd style="font-size:0.75rem;background:var(--bg);border:1px solid var(--border);padding:1px 5px;border-radius:3px;">1–0</kbd> for quick play</span>
+  </div>
+
+  <div id="sound-grid"></div>
+  <div id="no-results">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <p>No sounds match "<span id="no-results-query"></span>"</p>
+  </div>
+</div>
+
+<div id="now-playing">
+  <span class="np-dot"></span>
+  <span id="np-text">Now Playing</span>
+</div>
+
+<script>
+const sounds = [
+  { name: 'Vine Boom',              src: '/sounds/vine-boom.mp3',                              cat: 'viral', emoji: '💥', key: '1' },
+  { name: 'FAHHHHHHHHHHHHHH',       src: '/sounds/fahhhhhhhhhhhhhh.mp3',                       cat: 'viral', emoji: '😱', key: '2' },
+  { name: 'Anime Wow',              src: '/sounds/anime-wow-sound-effect.mp3',                 cat: 'meme',  emoji: '🌸', key: '3' },
+  { name: 'SpongeBob Fail',         src: '/sounds/spongebob-fail.mp3',                         cat: 'tv',    emoji: '🧽', key: '4' },
+  { name: 'Among Us Role Reveal',   src: '/sounds/among-us-role-reveal-sound.mp3',             cat: 'game',  emoji: '🎮', key: '5' },
+  { name: 'Metal Pipe Clang',       src: '/sounds/metal-pipe-clang.mp3',                       cat: 'meme',  emoji: '🔧', key: '6' },
+  { name: 'Rizz Sound Effect',      src: '/sounds/rizz-sound-effect.mp3',                      cat: 'viral', emoji: '😎', key: '7' },
+  { name: 'Dun Dun DUNNN',          src: '/sounds/dun-dun-dun-sound-effect-brass_8nFBccR.mp3', cat: 'meme',  emoji: '🎺', key: '8' },
+  { name: 'Apple Pay',              src: '/sounds/applepay.mp3',                               cat: 'sfx',   emoji: '💳', key: '9' },
+  { name: 'Undertaker Bell',        src: '/sounds/undertakers-bell_2UwFCIe.mp3',               cat: 'tv',    emoji: '🔔', key: '0' },
+  { name: 'Dexter Meme',            src: '/sounds/dexter-meme.mp3',                            cat: 'tv',    emoji: '🧪' },
+  { name: 'Tuco: GET OUT',          src: '/sounds/tuco-get-out.mp3',                           cat: 'tv',    emoji: '😤' },
+  { name: 'Bone Crack',             src: '/sounds/bone-crack.mp3',                             cat: 'sfx',   emoji: '🦴' },
+  { name: 'Fart',                   src: '/sounds/dry-fart.mp3',                               cat: 'meme',  emoji: '💨' },
+  { name: 'Error Sound',            src: '/sounds/error_CDOxCYm.mp3',                          cat: 'sfx',   emoji: '⚠️' },
+  { name: 'Yeah Boiii',             src: '/sounds/yeah-boiii-i-i-i.mp3',                       cat: 'viral', emoji: '🎉' },
+  { name: 'Hub Intro Sound',        src: '/sounds/hub-intro-sound.mp3',                        cat: 'meme',  emoji: '🎵' },
+  { name: 'What a Good Boy',        src: '/sounds/what-a-good-boy.mp3',                        cat: 'viral', emoji: '🐕' },
+  { name: 'ACK',                    src: '/sounds/ack.mp3',                                    cat: 'meme',  emoji: '😵' },
+  { name: 'Camera Click',           src: '/sounds/zvuk-fotoapparata.mp3',                      cat: 'sfx',   emoji: '📷' },
+  { name: 'Galaxy Brain',           src: '/sounds/galaxy-meme.mp3',                            cat: 'meme',  emoji: '🌌' },
+  { name: 'Lizard Button',          src: '/sounds/lizard-button.mp3',                          cat: 'meme',  emoji: '🦎' },
+  { name: 'Romance',                src: '/sounds/romanceeeeeeeeeeeeee.mp3',                   cat: 'meme',  emoji: '💕' },
+  { name: 'I Am Going to Commit Great Crime', src: '/sounds/i-am-going-to-commit-great-crime.mp3', cat: 'meme', emoji: '😈' },
+  { name: 'Rip My Granny Bazooka',  src: '/sounds/rip-my-granny-she-got-hit-by-a-bazooka.mp3', cat: 'viral', emoji: '💣' },
+  { name: 'Rip My Granny Loud',     src: '/sounds/rip-my-granny-loud-asf.mp3',                 cat: 'viral', emoji: '💀' },
+  { name: 'Your Phone is Ringing',  src: '/sounds/youre-phone-is-ringing.mp3',                 cat: 'sfx',   emoji: '📱' },
+  { name: 'Yes! (Lara)',            src: '/sounds/yes-lara-voice.mp3',                          cat: 'viral', emoji: '✅' },
+  { name: 'Chicken Screaming',      src: '/sounds/chicken-on-tree-screaming.mp3',              cat: 'meme',  emoji: '🐔' },
+  { name: 'We Are Charlie Kirk',    src: '/sounds/we-are-charlie-kirk-phone.mp3',               cat: 'viral', emoji: '📞' },
+  { name: 'I Like Femboys',         src: '/sounds/i-like-femboys_6JHIoHH.mp3',                 cat: 'viral', emoji: '🏳️‍🌈' },
+  { name: 'FAAAH',                  src: '/sounds/faaah.mp3',                                  cat: 'viral', emoji: '🗣️' },
+];
+
+// ─── State ───
+let currentAudio = null;
+let currentCard  = null;
+let npTimer      = null;
+const likes      = JSON.parse(localStorage.getItem('semes-likes') || '{}');
+let activeFilter = 'all';
+
+// ─── Build grid ───
+const grid    = document.getElementById('sound-grid');
+const npEl    = document.getElementById('now-playing');
+const npText  = document.getElementById('np-text');
+const countEl = document.getElementById('visible-count');
+
+sounds.forEach((s, i) => {
+  const card = document.createElement('div');
+  card.className = 'sound-card';
+  card.dataset.name = s.name.toLowerCase();
+  card.dataset.cat  = s.cat;
+
+  card.innerHTML = `
+    ${s.key ? `<span class="kbd-badge">${s.key}</span>` : ''}
+    <button class="btn-play" aria-label="Play ${s.name}">
+      <span class="play-tri"></span>
+      <span class="sound-name">${s.emoji} ${s.name}</span>
+    </button>
+    <div class="progress-bar"><div class="progress-fill"></div></div>
+    <div class="card-footer">
+      <span class="tag">${s.cat}</span>
+      <div class="footer-actions">
+        <button class="btn-sm like-btn${likes[i] ? ' liked' : ''}" title="Favourite" aria-label="Favourite">
+          ${likes[i] ? '♥' : '♡'}
+        </button>
+        <button class="btn-sm copy-btn" title="Copy link" aria-label="Copy link">🔗</button>
+      </div>
+    </div>
+  `;
+
+  const playBtn  = card.querySelector('.btn-play');
+  const progress = card.querySelector('.progress-fill');
+  const likeBtn  = card.querySelector('.like-btn');
+  const copyBtn  = card.querySelector('.copy-btn');
+
+  playBtn.addEventListener('click', () => triggerSound(s, i, card, playBtn, progress));
+
+  likeBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    likes[i] = !likes[i];
+    localStorage.setItem('semes-likes', JSON.stringify(likes));
+    likeBtn.textContent = likes[i] ? '♥' : '♡';
+    likeBtn.classList.toggle('liked', !!likes[i]);
+  });
+
+  copyBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const url = `${location.origin}${location.pathname}#${s.name.toLowerCase().replace(/\s+/g,'-')}`;
+    navigator.clipboard.writeText(url).catch(() => {});
+    copyBtn.classList.add('copied');
+    copyBtn.textContent = '✓';
+    setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.textContent = '🔗'; }, 1500);
+  });
+
+  grid.appendChild(card);
+});
+
+// ─── Play ───
+function triggerSound(s, i, card, btn, progress) {
+  // Stop current
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    if (currentCard) {
+      currentCard.querySelector('.btn-play')?.classList.remove('playing');
+      currentCard.querySelector('.progress-fill').style.width = '0%';
+    }
+    if (currentCard === card) { currentAudio = null; currentCard = null; return; }
+  }
+
+  const audio = new Audio(s.src);
+  currentAudio = audio;
+  currentCard  = card;
+
+  btn.classList.add('playing');
+
+  audio.addEventListener('timeupdate', () => {
+    if (audio.duration) progress.style.width = (audio.currentTime / audio.duration * 100) + '%';
+  });
+  audio.addEventListener('ended', () => {
+    btn.classList.remove('playing');
+    progress.style.width = '0%';
+    currentAudio = null; currentCard = null;
+    hideNowPlaying();
+  });
+  audio.addEventListener('error', () => {
+    btn.classList.remove('playing');
+    progress.style.width = '0%';
+    currentAudio = null; currentCard = null;
+  });
+
+  audio.play().catch(() => {});
+  showNowPlaying(s.emoji + ' ' + s.name);
+}
+
+function showNowPlaying(name) {
+  npText.textContent = name;
+  npEl.classList.add('show');
+  clearTimeout(npTimer);
+}
+function hideNowPlaying() {
+  npEl.classList.remove('show');
+}
+
+// ─── Keyboard ───
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  const s = sounds.find(s => s.key === e.key);
+  if (!s) return;
+  const i = sounds.indexOf(s);
+  const card = grid.children[i];
+  triggerSound(s, i, card, card.querySelector('.btn-play'), card.querySelector('.progress-fill'));
+});
+
+// ─── Search ───
+const searchEl = document.getElementById('search');
+searchEl.addEventListener('input', applyFilters);
+
+// ─── Category chips ───
+document.querySelectorAll('.chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    activeFilter = chip.dataset.cat;
+    applyFilters();
+  });
+});
+
+function applyFilters() {
+  const q   = searchEl.value.trim().toLowerCase();
+  const cat = activeFilter;
+  let visible = 0;
+
+  Array.from(grid.querySelectorAll('.sound-card')).forEach(card => {
+    const nameMatch = !q || card.dataset.name.includes(q);
+    const catMatch  = cat === 'all' || card.dataset.cat === cat;
+    const show = nameMatch && catMatch;
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  countEl.textContent = visible;
+  const noRes = document.getElementById('no-results');
+  noRes.style.display = visible === 0 ? 'block' : 'none';
+  document.getElementById('no-results-query').textContent = q || cat;
+}
+
+// ─── Dark mode ───
+const themeBtn = document.getElementById('btn-theme');
+const saved = localStorage.getItem('semes-theme');
+if (saved === 'dark') { document.documentElement.dataset.theme = 'dark'; themeBtn.textContent = '☀️'; }
+
+themeBtn.addEventListener('click', () => {
+  const isDark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = isDark ? '' : 'dark';
+  themeBtn.textContent = isDark ? '🌙' : '☀️';
+  localStorage.setItem('semes-theme', isDark ? 'light' : 'dark');
+});
+</script>
+</body>
+</html>
