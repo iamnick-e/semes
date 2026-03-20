@@ -511,7 +511,8 @@ sounds.forEach((s, i) => {
   copyBtn.addEventListener('click', e => {
     e.stopPropagation();
     const slug = s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    const url  = `${location.origin}${location.pathname}#${slug}`;
+    const base = new URL('.', location.href).href.replace(/\/$/, '');
+    const url  = `${base}/s/${slug}/`;
     navigator.clipboard.writeText(url).catch(() => {});
     copyBtn.classList.add('copied');
     copyBtn.textContent = '✓';
