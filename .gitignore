@@ -6,3 +6,4 @@ deploy-s3.js
 Dockerfile
 README.md
 package-lock.json
+.github/
