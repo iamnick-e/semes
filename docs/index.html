@@ -53,7 +53,6 @@
       z-index: 200;
       box-shadow: var(--shadow);
     }
-
     .logo {
       font-size: 1.6rem;
       font-weight: 900;
@@ -63,7 +62,6 @@
       flex-shrink: 0;
       user-select: none;
     }
-
     .search-wrap {
       flex: 1;
       max-width: 480px;
@@ -90,7 +88,6 @@
     }
     #search:focus { border-color: var(--accent); background: var(--surface); }
     #search::placeholder { color: var(--muted); }
-
     .header-right {
       margin-left: auto;
       display: flex;
@@ -98,7 +95,6 @@
       gap: 0.6rem;
       flex-shrink: 0;
     }
-
     .btn-icon {
       width: 36px; height: 36px;
       border: 1.5px solid var(--border);
@@ -156,7 +152,6 @@
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 0.75rem;
     }
-
     .sound-card {
       background: var(--surface);
       border: 1.5px solid var(--border);
@@ -194,14 +189,11 @@
     }
     .btn-play:hover { background: var(--accent-dark); }
     .btn-play:active { filter: brightness(0.9); }
-    .btn-play.playing {
-      animation: flashPlay 0.4s ease;
-    }
+    .btn-play.playing { animation: flashPlay 0.4s ease; }
     @keyframes flashPlay {
       0%   { filter: brightness(1.5); }
       100% { filter: brightness(1); }
     }
-
     .play-tri {
       flex-shrink: 0;
       width: 26px; height: 26px;
@@ -218,17 +210,13 @@
       border-left: 10px solid #fff;
       margin-left: 2px;
     }
-    .btn-play.playing .play-tri {
-      background: rgba(255,255,255,0.4);
-    }
+    .btn-play.playing .play-tri { background: rgba(255,255,255,0.4); }
     .btn-play.playing .play-tri::after {
-      /* Pause bars */
       border: none;
       width: 9px; height: 10px;
       background: linear-gradient(to right, #fff 3px, transparent 3px, transparent 6px, #fff 6px);
       margin-left: 0;
     }
-
     .sound-name {
       flex: 1;
       overflow: hidden;
@@ -245,8 +233,8 @@
       padding: 0.35rem 0.6rem;
       gap: 0.3rem;
       border-top: 1px solid var(--border);
+      min-height: 34px;
     }
-
     .tag {
       font-size: 0.65rem;
       font-weight: 700;
@@ -258,7 +246,13 @@
       color: var(--accent);
       flex-shrink: 0;
     }
-
+    .play-count {
+      font-size: 0.65rem;
+      color: var(--muted);
+      font-weight: 600;
+      white-space: nowrap;
+      margin-left: 0.2rem;
+    }
     .footer-actions {
       margin-left: auto;
       display: flex;
@@ -278,6 +272,8 @@
     .btn-sm:hover { color: var(--text); background: var(--bg); }
     .btn-sm.liked { color: #e03050; }
     .btn-sm.copied { color: #22aa55; }
+    .btn-sm.info-btn { font-style: normal; font-size: 0.8rem; font-weight: 700; }
+    .btn-sm.info-btn:hover { color: var(--accent); }
 
     /* Keyboard badge */
     .kbd-badge {
@@ -316,7 +312,7 @@
     }
     #no-results svg { margin-bottom: 1rem; opacity: 0.3; }
 
-    /* ─── Currently playing banner ─── */
+    /* ─── Now playing banner ─── */
     #now-playing {
       position: fixed;
       bottom: 1.5rem;
@@ -339,10 +335,7 @@
       align-items: center;
       gap: 0.5rem;
     }
-    #now-playing.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
+    #now-playing.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     .np-dot {
       width: 8px; height: 8px;
       background: var(--accent);
@@ -361,11 +354,143 @@
       gap: 1rem;
       margin-bottom: 1rem;
     }
-    .stats-row span {
-      font-size: 0.8rem;
+    .stats-row span { font-size: 0.8rem; color: var(--muted); }
+    .stats-row strong { color: var(--text); }
+
+    /* ─── Info Modal ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 500;
+      padding: 1rem;
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+    .modal-overlay[hidden] { display: none; }
+    .modal-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem 1.75rem 1.5rem;
+      max-width: 400px;
+      width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.65rem;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.3);
+      animation: modalIn 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.88) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 0.75rem; right: 0.75rem;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: var(--muted);
+      width: 30px; height: 30px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      line-height: 1;
+    }
+    .modal-close:hover { background: var(--bg); color: var(--text); }
+    .modal-emoji { font-size: 3.2rem; line-height: 1; margin-top: 0.25rem; }
+    .modal-name { font-size: 1.25rem; font-weight: 800; text-align: center; line-height: 1.2; }
+    .modal-meta {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 0.25rem 0;
+    }
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.1rem;
+      min-width: 80px;
+    }
+    .meta-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
       color: var(--muted);
     }
-    .stats-row strong { color: var(--text); }
+    .meta-value {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--text);
+    }
+    .modal-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 0.25rem 0;
+    }
+    .modal-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.55;
+    }
+    .modal-play-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 24px;
+      padding: 0.55rem 1.75rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.1s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .modal-play-btn:hover { background: var(--accent-dark); transform: scale(1.03); }
+    .modal-play-btn:active { transform: scale(0.97); }
+
+    /* ─── Site footer ─── */
+    .site-footer {
+      text-align: center;
+      padding: 1.5rem 1rem 2.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+    .site-footer a { color: var(--muted); text-decoration: none; transition: color 0.15s; }
+    .site-footer a:hover { color: var(--accent); }
+    .bmc-btn {
+      background: #ffdd00;
+      color: #000 !important;
+      padding: 0.3rem 0.9rem;
+      border-radius: 20px;
+      font-weight: 700 !important;
+      font-size: 0.78rem;
+    }
+    .bmc-btn:hover { opacity: 0.88; }
+    .claude-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
 
     /* ─── Responsive ─── */
     @media (max-width: 600px) {
@@ -415,61 +540,375 @@
   </div>
 </div>
 
+<!-- Info Modal -->
+<div id="info-modal" class="modal-overlay" hidden>
+  <div class="modal-card" id="modal-card">
+    <button class="modal-close" id="modal-close" aria-label="Close">×</button>
+    <div class="modal-emoji" id="info-emoji"></div>
+    <h2 class="modal-name" id="info-name"></h2>
+    <div class="modal-meta">
+      <div class="meta-item">
+        <span class="meta-label">Source</span>
+        <span class="meta-value" id="info-source"></span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Year</span>
+        <span class="meta-value" id="info-year"></span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Category</span>
+        <span class="meta-value" id="info-cat"></span>
+      </div>
+    </div>
+    <div class="modal-divider"></div>
+    <p class="modal-desc" id="info-desc"></p>
+    <button class="modal-play-btn" id="info-play-btn">▶ Play</button>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <span class="claude-badge">Vibe coded with ♥ by <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a></span>
+  <span>·</span>
+  <a class="bmc-btn" href="https://buymeacoffee.com/sumoio" target="_blank" rel="noopener">☕ Buy me a coffee</a>
+</footer>
+
 <div id="now-playing">
   <span class="np-dot"></span>
   <span id="np-text">Now Playing</span>
 </div>
 
 <script>
+// ─── Config ───────────────────────────────────────────────────────────────
+// Set this to your Cloudflare Worker URL for global play counts across all
+// users. Leave empty to use per-device localStorage counts only.
+// Setup: https://developers.cloudflare.com/workers/ (free tier covers this)
+const COUNTS_API = '';
+
+// ─── Sound catalogue ──────────────────────────────────────────────────────
 const sounds = [
-  { name: 'Vine Boom',              src: 'sounds/vine-boom.mp3',                              cat: 'viral', emoji: '💥', key: '1' },
-  { name: 'FAHHHHHHHHHHHHHH',       src: 'sounds/fahhhhhhhhhhhhhh.mp3',                       cat: 'viral', emoji: '😱', key: '2' },
-  { name: 'Anime Wow',              src: 'sounds/anime-wow-sound-effect.mp3',                 cat: 'meme',  emoji: '🌸', key: '3' },
-  { name: 'SpongeBob Fail',         src: 'sounds/spongebob-fail.mp3',                         cat: 'tv',    emoji: '🧽', key: '4' },
-  { name: 'Among Us Role Reveal',   src: 'sounds/among-us-role-reveal-sound.mp3',             cat: 'game',  emoji: '🎮', key: '5' },
-  { name: 'Metal Pipe Clang',       src: 'sounds/metal-pipe-clang.mp3',                       cat: 'meme',  emoji: '🔧', key: '6' },
-  { name: 'Rizz Sound Effect',      src: 'sounds/rizz-sound-effect.mp3',                      cat: 'viral', emoji: '😎', key: '7' },
-  { name: 'Dun Dun DUNNN',          src: 'sounds/dun-dun-dun-sound-effect-brass_8nFBccR.mp3', cat: 'meme',  emoji: '🎺', key: '8' },
-  { name: 'Apple Pay',              src: 'sounds/applepay.mp3',                               cat: 'sfx',   emoji: '💳', key: '9' },
-  { name: 'Undertaker Bell',        src: 'sounds/undertakers-bell_2UwFCIe.mp3',               cat: 'tv',    emoji: '🔔', key: '0' },
-  { name: 'Dexter Meme',            src: 'sounds/dexter-meme.mp3',                            cat: 'tv',    emoji: '🧪' },
-  { name: 'Tuco: GET OUT',          src: 'sounds/tuco-get-out.mp3',                           cat: 'tv',    emoji: '😤' },
-  { name: 'Bone Crack',             src: 'sounds/bone-crack.mp3',                             cat: 'sfx',   emoji: '🦴' },
-  { name: 'Fart',                   src: 'sounds/dry-fart.mp3',                               cat: 'meme',  emoji: '💨' },
-  { name: 'Error Sound',            src: 'sounds/error_CDOxCYm.mp3',                          cat: 'sfx',   emoji: '⚠️' },
-  { name: 'Yeah Boiii',             src: 'sounds/yeah-boiii-i-i-i.mp3',                       cat: 'viral', emoji: '🎉' },
-  { name: 'Hub Intro Sound',        src: 'sounds/hub-intro-sound.mp3',                        cat: 'meme',  emoji: '🎵' },
-  { name: 'What a Good Boy',        src: 'sounds/what-a-good-boy.mp3',                        cat: 'viral', emoji: '🐕' },
-  { name: 'ACK',                    src: 'sounds/ack.mp3',                                    cat: 'meme',  emoji: '😵' },
-  { name: 'Camera Click',           src: 'sounds/zvuk-fotoapparata.mp3',                      cat: 'sfx',   emoji: '📷' },
-  { name: 'Galaxy Brain',           src: 'sounds/galaxy-meme.mp3',                            cat: 'meme',  emoji: '🌌' },
-  { name: 'Lizard Button',          src: 'sounds/lizard-button.mp3',                          cat: 'meme',  emoji: '🦎' },
-  { name: 'Romance',                src: 'sounds/romanceeeeeeeeeeeeee.mp3',                   cat: 'meme',  emoji: '💕' },
-  { name: 'I Am Going to Commit Great Crime', src: 'sounds/i-am-going-to-commit-great-crime.mp3', cat: 'meme', emoji: '😈' },
-  { name: 'Rip My Granny Bazooka',  src: 'sounds/rip-my-granny-she-got-hit-by-a-bazooka.mp3', cat: 'viral', emoji: '💣' },
-  { name: 'Rip My Granny Loud',     src: 'sounds/rip-my-granny-loud-asf.mp3',                 cat: 'viral', emoji: '💀' },
-  { name: 'Your Phone is Ringing',  src: 'sounds/youre-phone-is-ringing.mp3',                 cat: 'sfx',   emoji: '📱' },
-  { name: 'Yes! (Lara)',            src: 'sounds/yes-lara-voice.mp3',                          cat: 'viral', emoji: '✅' },
-  { name: 'Chicken Screaming',      src: 'sounds/chicken-on-tree-screaming.mp3',              cat: 'meme',  emoji: '🐔' },
-  { name: 'We Are Charlie Kirk',    src: 'sounds/we-are-charlie-kirk-phone.mp3',               cat: 'viral', emoji: '📞' },
-  { name: 'I Like Femboys',         src: 'sounds/i-like-femboys_6JHIoHH.mp3',                 cat: 'viral', emoji: '🏳️‍🌈' },
-  { name: 'FAAAH',                  src: 'sounds/faaah.mp3',                                  cat: 'viral', emoji: '🗣️' },
+  {
+    name: 'Vine Boom', src: 'sounds/vine-boom.mp3', cat: 'viral', emoji: '💥', key: '1',
+    meta: {
+      source: 'Vine / Internet',
+      year: '~2013',
+      desc: 'The deep bass impact sound that defined a generation of Vine memes. Used to punctuate unexpected moments and punchlines. Vine died in 2016 — the boom lives forever.'
+    }
+  },
+  {
+    name: 'FAHHHHHHHHHHHHHH', src: 'sounds/fahhhhhhhhhhhhhh.mp3', cat: 'viral', emoji: '😱', key: '2',
+    meta: {
+      source: 'Internet meme',
+      year: 'Unknown',
+      desc: 'A prolonged, anguished yell of despair, horror, or comedic chaos. The longer the FAHHH, the worse the situation. This one is very long. You\'ve been warned.'
+    }
+  },
+  {
+    name: 'Anime Wow', src: 'sounds/anime-wow-sound-effect.mp3', cat: 'meme', emoji: '🌸', key: '3',
+    meta: {
+      source: 'Anime reaction culture',
+      year: '~2010s',
+      desc: 'The exaggerated "wow" lifted from anime reaction scenes. Used sincerely, sarcastically, and everywhere in between. A cornerstone of internet reaction culture.'
+    }
+  },
+  {
+    name: 'SpongeBob Fail', src: 'sounds/spongebob-fail.mp3', cat: 'tv', emoji: '🧽', key: '4',
+    meta: {
+      source: 'SpongeBob SquarePants (Nickelodeon)',
+      year: '1999',
+      desc: '"Grass Skirt Chase" by Sage Guyton & Jeremy Wakefield — the slow, mournful tuba walk used throughout SpongeBob to score defeat and embarrassment. The universal sound of failing.'
+    }
+  },
+  {
+    name: 'Among Us Role Reveal', src: 'sounds/among-us-role-reveal-sound.mp3', cat: 'game', emoji: '🎮', key: '5',
+    meta: {
+      source: 'Among Us — InnerSloth',
+      year: '2020 (peak)',
+      desc: 'The dramatic sting played when Crewmate or Impostor roles are assigned at game start. Perfectly encapsulates the anxiety of discovering you\'re the one who has to do all the murders.'
+    }
+  },
+  {
+    name: 'Metal Pipe Clang', src: 'sounds/metal-pipe-clang.mp3', cat: 'meme', emoji: '🔧', key: '6',
+    meta: {
+      source: 'Roblox / Internet meme',
+      year: '~2019',
+      desc: 'Originally from Roblox\'s sound library, this clang became a meme staple for comedic pain and unexpected impact moments. The spiritual successor to the Roblox oof.'
+    }
+  },
+  {
+    name: 'Rizz Sound Effect', src: 'sounds/rizz-sound-effect.mp3', cat: 'viral', emoji: '😎', key: '7',
+    meta: {
+      source: 'TikTok / Gen Z slang',
+      year: '~2022',
+      desc: '"Rizz" = effortless charm and social magnetism, popularised on TikTok in 2022–23. This is the sonic equivalent of W rizz. Unspoken rizz only.'
+    }
+  },
+  {
+    name: 'Dun Dun DUNNN', src: 'sounds/dun-dun-dun-sound-effect-brass_8nFBccR.mp3', cat: 'meme', emoji: '🎺', key: '8',
+    meta: {
+      source: 'TV drama / Stock SFX',
+      year: 'Classic',
+      desc: 'The quintessential dramatic brass stinger for shocking plot twists. Closely associated with Law & Order (NBC, 1990–present) but used in cinema and TV for decades.'
+    }
+  },
+  {
+    name: 'Apple Pay', src: 'sounds/applepay.mp3', cat: 'sfx', emoji: '💳', key: '9',
+    meta: {
+      source: 'Apple Inc.',
+      year: '~2014',
+      desc: 'The satisfying "ping" of a successful Apple Pay transaction. Now deployed ironically for any financial event, from buying a coffee to a generational wealth flex.'
+    }
+  },
+  {
+    name: 'Undertaker Bell', src: 'sounds/undertakers-bell_2UwFCIe.mp3', cat: 'tv', emoji: '🔔', key: '0',
+    meta: {
+      source: 'WWE / The Undertaker',
+      year: '1990',
+      desc: 'The funeral bell opening of The Undertaker\'s iconic entrance theme "Rest in Peace" by Jim Johnston. Mark Calaway has walked to this bell since Survivor Series 1990. Rest. In. Peace.'
+    }
+  },
+  {
+    name: 'Dexter Meme', src: 'sounds/dexter-meme.mp3', cat: 'tv', emoji: '🧪',
+    meta: {
+      source: 'Dexter\'s Laboratory (Cartoon Network)',
+      year: '1996',
+      desc: 'From Genndy Tartakovsky\'s classic series about a boy genius with a secret lab. Used to underscore overly technical explanations, accidental genius, or the smell of dry-erase markers.'
+    }
+  },
+  {
+    name: 'Tuco: GET OUT', src: 'sounds/tuco-get-out.mp3', cat: 'tv', emoji: '😤',
+    meta: {
+      source: 'Breaking Bad (AMC)',
+      year: '2008',
+      desc: 'Tuco Salamanca (Raymond Cruz) explosively ordering Walter White and Jesse Pinkman out in Season 1. One of the most unhinged characters in TV history. Do not make him wait.'
+    }
+  },
+  {
+    name: 'Bone Crack', src: 'sounds/bone-crack.mp3', cat: 'sfx', emoji: '🦴',
+    meta: {
+      source: 'SFX / Internet',
+      year: 'Unknown',
+      desc: 'The visceral, unsettling crack of bones. Used for terrifying moments, oddly satisfying ASMR, or whenever someone needs to announce they\'ve just popped their back.'
+    }
+  },
+  {
+    name: 'Fart', src: 'sounds/dry-fart.mp3', cat: 'meme', emoji: '💨',
+    meta: {
+      source: 'Human biology',
+      year: 'Since ~500,000 BC',
+      desc: 'A dry fart. Timeless. Universally funny across all cultures, age groups, and centuries of human civilisation. The oldest joke in the book. Perfection.'
+    }
+  },
+  {
+    name: 'Error Sound', src: 'sounds/error_CDOxCYm.mp3', cat: 'sfx', emoji: '⚠️',
+    meta: {
+      source: 'Computer / Windows SFX',
+      year: 'Classic',
+      desc: 'The system error beep. Used when something has gone catastrophically wrong, slightly wrong, or you just want to be dramatic about your life choices.'
+    }
+  },
+  {
+    name: 'Yeah Boiii', src: 'sounds/yeah-boiii-i-i-i.mp3', cat: 'viral', emoji: '🎉',
+    meta: {
+      source: 'Flavor Flav / Public Enemy',
+      year: 'Late 1980s',
+      desc: 'Flavor Flav\'s (William Drayton Jr.) iconic hype-man catchphrase from Public Enemy. Also immortalised by Nickelodeon\'s Kenan & Kel (1996–2000). YEAH BOIIIII.'
+    }
+  },
+  {
+    name: 'Hub Intro Sound', src: 'sounds/hub-intro-sound.mp3', cat: 'meme', emoji: '🎵',
+    meta: {
+      source: 'Internet meme',
+      year: '~2010s',
+      desc: 'The four-note bass groove from the world\'s most recognisable adult website intro. Deployed entirely out of context as a comedic punchline. You already know exactly what this is.'
+    }
+  },
+  {
+    name: 'What a Good Boy', src: 'sounds/what-a-good-boy.mp3', cat: 'viral', emoji: '🐕',
+    meta: {
+      source: 'Internet meme',
+      year: 'Unknown',
+      desc: 'Maximum enthusiasm for minimum effort. Send this to anyone who correctly identifies a fork, remembers to hydrate, or successfully loads a dishwasher on the first try.'
+    }
+  },
+  {
+    name: 'ACK', src: 'sounds/ack.mp3', cat: 'meme', emoji: '😵',
+    meta: {
+      source: 'Internet / onomatopoeia',
+      year: 'Classic',
+      desc: 'The universal sound of sudden shock, disgust, or social crisis. Covers the full spectrum from "I forgot to reply to that email" to "I opened the wrong tab in public."'
+    }
+  },
+  {
+    name: 'Camera Click', src: 'sounds/zvuk-fotoapparata.mp3', cat: 'sfx', emoji: '📷',
+    meta: {
+      source: 'Camera SFX',
+      year: 'Classic',
+      desc: '"Zvuk fotoapparata" — Russian for "camera sound." The satisfying shutter click for capturing a perfect, hideous, or deeply incriminating moment in time.'
+    }
+  },
+  {
+    name: 'Galaxy Brain', src: 'sounds/galaxy-meme.mp3', cat: 'meme', emoji: '🌌',
+    meta: {
+      source: 'Internet meme (Reddit)',
+      year: '~2017',
+      desc: 'Soundtrack to the expanding brain template — where each step of reasoning becomes more absurd. Started on Reddit c.2017 as a format for beautifully unhinged logic. You\'ve solved it.'
+    }
+  },
+  {
+    name: 'Lizard Button', src: 'sounds/lizard-button.mp3', cat: 'meme', emoji: '🦎',
+    meta: {
+      source: 'Internet meme',
+      year: 'Unknown',
+      desc: 'A mysterious, cursed button sound from the depths of internet meme culture. What does it mean? Where does it come from? Should you press it? Yes. Always press it.'
+    }
+  },
+  {
+    name: 'Romance', src: 'sounds/romanceeeeeeeeeeeeee.mp3', cat: 'meme', emoji: '💕',
+    meta: {
+      source: 'Music SFX / Internet',
+      year: 'Unknown',
+      desc: 'A sustained, overwrought romantic sting (note: the file is spelled romanceeeeeeeeeeeeee and that feels correct). For injecting totally unearned emotional tension into any mundane situation.'
+    }
+  },
+  {
+    name: 'I Am Going to Commit Great Crime', src: 'sounds/i-am-going-to-commit-great-crime.mp3', cat: 'meme', emoji: '😈',
+    meta: {
+      source: 'Internet meme',
+      year: '~2021',
+      desc: 'The wholesome villain arc everyone goes on when someone steals their parking spot or eats their sandwich. The crime is almost never that great. Usually it\'s jaywalking.'
+    }
+  },
+  {
+    name: 'Rip My Granny Bazooka', src: 'sounds/rip-my-granny-she-got-hit-by-a-bazooka.mp3', cat: 'viral', emoji: '💣',
+    meta: {
+      source: 'Viral video / song',
+      year: 'Unknown',
+      desc: 'From a chaotic internet video/song about a grandmother and an explosive incident. Internet humour operating at peak chaos. RIP granny. She would have wanted this.'
+    }
+  },
+  {
+    name: 'Rip My Granny Loud', src: 'sounds/rip-my-granny-loud-asf.mp3', cat: 'viral', emoji: '💀',
+    meta: {
+      source: 'Viral video / song (loud cut)',
+      year: 'Unknown',
+      desc: 'The significantly louder version of the same granny-related incident. For when the standard bazooka version doesn\'t convey the true scale of events. Headphone warning.'
+    }
+  },
+  {
+    name: 'Your Phone is Ringing', src: 'sounds/youre-phone-is-ringing.mp3', cat: 'sfx', emoji: '📱',
+    meta: {
+      source: 'Nokia ringtone / phone meme',
+      year: 'Classic',
+      desc: 'The universally recognised ringtone that became a meme because yes, we know, everyone can hear it. Named and shamed. Please put it on silent.'
+    }
+  },
+  {
+    name: 'Yes! (Lara)', src: 'sounds/yes-lara-voice.mp3', cat: 'viral', emoji: '✅',
+    meta: {
+      source: 'Internet meme / voice clip',
+      year: 'Unknown',
+      desc: 'An enthusiastic "Yes!" from a voice called Lara. Used to celebrate achievements ranging from "I made my bed" to "I filed my taxes before the deadline for once."'
+    }
+  },
+  {
+    name: 'Chicken Screaming', src: 'sounds/chicken-on-tree-screaming.mp3', cat: 'meme', emoji: '🐔',
+    meta: {
+      source: 'Viral video',
+      year: 'Unknown',
+      desc: 'A chicken on a tree emitting the loudest, most soul-piercing scream ever recorded. Went viral for perfectly capturing the energy of existing in the modern world. Relatable.'
+    }
+  },
+  {
+    name: 'We Are Charlie Kirk', src: 'sounds/we-are-charlie-kirk-phone.mp3', cat: 'viral', emoji: '📞',
+    meta: {
+      source: 'Internet meme / Charlie Kirk',
+      year: '~2022',
+      desc: 'Based on a viral meme format featuring conservative commentator Charlie Kirk. Functions as both a phone-answering meme and an unsolicited opinion delivery system.'
+    }
+  },
+  {
+    name: 'I Like Femboys', src: 'sounds/i-like-femboys_6JHIoHH.mp3', cat: 'viral', emoji: '🏳️‍🌈',
+    meta: {
+      source: 'Internet meme / TikTok',
+      year: '~2021',
+      desc: 'The audio clip that launched a thousand reaction videos and at least one life-changing conversation. Unapologetic, iconic, and certified internet classic. No notes.'
+    }
+  },
+  {
+    name: 'FAAAH', src: 'sounds/faaah.mp3', cat: 'viral', emoji: '🗣️',
+    meta: {
+      source: 'Internet meme / yell',
+      year: 'Unknown',
+      desc: 'The shorter, sharper cousin of FAHHHHHHHHHHHHHH. For when you need to express panic, horror, or mild inconvenience in under two seconds. Time-efficient screaming.'
+    }
+  },
 ];
 
-// ─── State ───
+// ─── State ────────────────────────────────────────────────────────────────
 let currentAudio = null;
 let currentCard  = null;
 let npTimer      = null;
 const likes      = JSON.parse(localStorage.getItem('semes-likes') || '{}');
 let activeFilter = 'all';
 
-// ─── Build grid ───
+// ─── Play counts ──────────────────────────────────────────────────────────
+const localCounts   = JSON.parse(localStorage.getItem('semes-counts') || '{}');
+const displayCounts = { ...localCounts };
+
+function slugify(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function formatCount(n) {
+  if (!n || n < 1) return '';
+  if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.0', '') + 'M';
+  if (n >= 1000)    return (n / 1000).toFixed(1).replace('.0', '') + 'k';
+  return String(n);
+}
+
+function updateCountEl(slug) {
+  const el = document.getElementById('count-' + slug);
+  if (!el) return;
+  const n  = displayCounts[slug] || 0;
+  el.textContent = n > 0 ? formatCount(n) + ' plays' : '';
+}
+
+async function incrementCount(slug) {
+  localCounts[slug]   = (localCounts[slug] || 0) + 1;
+  displayCounts[slug] = Math.max(displayCounts[slug] || 0, localCounts[slug]);
+  localStorage.setItem('semes-counts', JSON.stringify(localCounts));
+  updateCountEl(slug);
+
+  if (COUNTS_API) {
+    try {
+      const res  = await fetch(`${COUNTS_API}/${slug}`, { method: 'POST' });
+      const data = await res.json();
+      displayCounts[slug] = Math.max(displayCounts[slug], data.count || 0);
+      updateCountEl(slug);
+    } catch (_) { /* silent — local count already saved */ }
+  }
+}
+
+async function loadGlobalCounts() {
+  if (!COUNTS_API) return;
+  try {
+    const res  = await fetch(`${COUNTS_API}/`);
+    const data = await res.json();
+    for (const [s, n] of Object.entries(data)) {
+      displayCounts[s] = Math.max(displayCounts[s] || 0, n);
+    }
+    sounds.forEach(s => updateCountEl(slugify(s.name)));
+  } catch (_) { /* silent */ }
+}
+
+// ─── Build grid ───────────────────────────────────────────────────────────
 const grid    = document.getElementById('sound-grid');
 const npEl    = document.getElementById('now-playing');
 const npText  = document.getElementById('np-text');
 const countEl = document.getElementById('visible-count');
 
 sounds.forEach((s, i) => {
+  const slug = slugify(s.name);
   const card = document.createElement('div');
   card.className = 'sound-card';
   card.dataset.name = s.name.toLowerCase();
@@ -484,7 +923,9 @@ sounds.forEach((s, i) => {
     <div class="progress-bar"><div class="progress-fill"></div></div>
     <div class="card-footer">
       <span class="tag">${s.cat}</span>
+      <span class="play-count" id="count-${slug}"></span>
       <div class="footer-actions">
+        <button class="btn-sm info-btn" title="About this sound" aria-label="Info">ℹ</button>
         <button class="btn-sm like-btn${likes[i] ? ' liked' : ''}" title="Favourite" aria-label="Favourite">
           ${likes[i] ? '♥' : '♡'}
         </button>
@@ -497,6 +938,7 @@ sounds.forEach((s, i) => {
   const progress = card.querySelector('.progress-fill');
   const likeBtn  = card.querySelector('.like-btn');
   const copyBtn  = card.querySelector('.copy-btn');
+  const infoBtn  = card.querySelector('.info-btn');
 
   playBtn.addEventListener('click', () => triggerSound(s, i, card, playBtn, progress));
 
@@ -510,7 +952,6 @@ sounds.forEach((s, i) => {
 
   copyBtn.addEventListener('click', e => {
     e.stopPropagation();
-    const slug = s.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const base = new URL('.', location.href).href.replace(/\/$/, '');
     const url  = `${base}/s/${slug}/`;
     navigator.clipboard.writeText(url).catch(() => {});
@@ -519,12 +960,17 @@ sounds.forEach((s, i) => {
     setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.textContent = '🔗'; }, 1500);
   });
 
+  infoBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    openInfoModal(i);
+  });
+
   grid.appendChild(card);
+  updateCountEl(slug);
 });
 
-// ─── Play ───
+// ─── Play ─────────────────────────────────────────────────────────────────
 function triggerSound(s, i, card, btn, progress) {
-  // Stop current
   if (currentAudio) {
     currentAudio.pause();
     currentAudio.currentTime = 0;
@@ -540,6 +986,7 @@ function triggerSound(s, i, card, btn, progress) {
   currentCard  = card;
 
   btn.classList.add('playing');
+  incrementCount(slugify(s.name));
 
   audio.addEventListener('timeupdate', () => {
     if (audio.duration) progress.style.width = (audio.currentTime / audio.duration * 100) + '%';
@@ -569,21 +1016,62 @@ function hideNowPlaying() {
   npEl.classList.remove('show');
 }
 
-// ─── Keyboard ───
+// ─── Info Modal ───────────────────────────────────────────────────────────
+const infoModal    = document.getElementById('info-modal');
+const modalCard    = document.getElementById('modal-card');
+let   modalSoundIdx = -1;
+
+function openInfoModal(i) {
+  const s = sounds[i];
+  modalSoundIdx = i;
+  document.getElementById('info-emoji').textContent  = s.emoji;
+  document.getElementById('info-name').textContent   = s.name;
+  document.getElementById('info-source').textContent = s.meta.source;
+  document.getElementById('info-year').textContent   = s.meta.year;
+  document.getElementById('info-cat').textContent    = s.cat.toUpperCase();
+  document.getElementById('info-desc').textContent   = s.meta.desc;
+
+  const playBtn = document.getElementById('info-play-btn');
+  playBtn.textContent = '▶ Play';
+
+  infoModal.hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeInfoModal() {
+  infoModal.hidden = true;
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal-close').addEventListener('click', closeInfoModal);
+
+infoModal.addEventListener('click', e => {
+  if (e.target === infoModal) closeInfoModal();
+});
+
+document.getElementById('info-play-btn').addEventListener('click', () => {
+  if (modalSoundIdx < 0) return;
+  closeInfoModal();
+  const s    = sounds[modalSoundIdx];
+  const card = grid.children[modalSoundIdx];
+  triggerSound(s, modalSoundIdx, card, card.querySelector('.btn-play'), card.querySelector('.progress-fill'));
+});
+
 document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !infoModal.hidden) { closeInfoModal(); return; }
   if (e.target.tagName === 'INPUT') return;
+  if (!infoModal.hidden) return;
   const s = sounds.find(s => s.key === e.key);
   if (!s) return;
-  const i = sounds.indexOf(s);
+  const i    = sounds.indexOf(s);
   const card = grid.children[i];
   triggerSound(s, i, card, card.querySelector('.btn-play'), card.querySelector('.progress-fill'));
 });
 
-// ─── Search ───
+// ─── Search ───────────────────────────────────────────────────────────────
 const searchEl = document.getElementById('search');
 searchEl.addEventListener('input', applyFilters);
 
-// ─── Category chips ───
 document.querySelectorAll('.chip').forEach(chip => {
   chip.addEventListener('click', () => {
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -597,7 +1085,6 @@ function applyFilters() {
   const q   = searchEl.value.trim().toLowerCase();
   const cat = activeFilter;
   let visible = 0;
-
   Array.from(grid.querySelectorAll('.sound-card')).forEach(card => {
     const nameMatch = !q || card.dataset.name.includes(q);
     const catMatch  = cat === 'all' || card.dataset.cat === cat;
@@ -605,36 +1092,30 @@ function applyFilters() {
     card.classList.toggle('hidden', !show);
     if (show) visible++;
   });
-
   countEl.textContent = visible;
   const noRes = document.getElementById('no-results');
   noRes.style.display = visible === 0 ? 'block' : 'none';
   document.getElementById('no-results-query').textContent = q || cat;
 }
 
-// ─── Deep link: auto-play sound from URL hash ───
-function slugify(name) {
-  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-}
+// ─── Deep link ────────────────────────────────────────────────────────────
 function handleHash() {
   const hash = decodeURIComponent(location.hash.slice(1));
   if (!hash) return;
   const idx = sounds.findIndex(s => slugify(s.name) === hash);
   if (idx === -1) return;
   const card = grid.children[idx];
-  const s    = sounds[idx];
   card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  // Small delay so scroll settles before playing
   setTimeout(() => {
-    triggerSound(s, idx, card, card.querySelector('.btn-play'), card.querySelector('.progress-fill'));
+    triggerSound(sounds[idx], idx, card, card.querySelector('.btn-play'), card.querySelector('.progress-fill'));
   }, 400);
 }
 window.addEventListener('hashchange', handleHash);
 handleHash();
 
-// ─── Dark mode ───
+// ─── Dark mode ────────────────────────────────────────────────────────────
 const themeBtn = document.getElementById('btn-theme');
-const saved = localStorage.getItem('semes-theme');
+const saved    = localStorage.getItem('semes-theme');
 if (saved === 'dark') { document.documentElement.dataset.theme = 'dark'; themeBtn.textContent = '☀️'; }
 
 themeBtn.addEventListener('click', () => {
@@ -643,6 +1124,9 @@ themeBtn.addEventListener('click', () => {
   themeBtn.textContent = isDark ? '🌙' : '☀️';
   localStorage.setItem('semes-theme', isDark ? 'light' : 'dark');
 });
+
+// ─── Load global counts (background) ─────────────────────────────────────
+loadGlobalCounts();
 </script>
 </body>
 </html>
