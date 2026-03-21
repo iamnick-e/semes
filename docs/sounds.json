@@ -1,0 +1,359 @@
+[
+  {
+    "slug": "ack",
+    "name": "ACK",
+    "emoji": "😵",
+    "src": "sounds/ack.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "among-us-role-reveal",
+    "name": "Among Us Role Reveal",
+    "emoji": "🎮",
+    "src": "sounds/among-us-role-reveal-sound.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "anime-wow",
+    "name": "Anime Wow",
+    "emoji": "🌸",
+    "src": "sounds/anime-wow-sound-effect.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "apple-pay",
+    "name": "Apple Pay",
+    "emoji": "💳",
+    "src": "sounds/applepay.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "baby-laughing",
+    "name": "Baby Laughing Meme",
+    "emoji": "😂",
+    "src": "sounds/baby-laughing-meme.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "bone-crack",
+    "name": "Bone Crack",
+    "emoji": "🦴",
+    "src": "sounds/bone-crack.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "brain-fart",
+    "name": "Long Brain Fart",
+    "emoji": "🧠",
+    "src": "sounds/long-brain-fart.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "camera-click",
+    "name": "Camera Click",
+    "emoji": "📷",
+    "src": "sounds/zvuk-fotoapparata.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "cat-laugh",
+    "name": "Cat Laugh Meme",
+    "emoji": "😹",
+    "src": "sounds/cat-laugh-meme-1.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "chicken-screaming",
+    "name": "Chicken Screaming",
+    "emoji": "🐔",
+    "src": "sounds/chicken-on-tree-screaming.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "deja-vu",
+    "name": "Deja Vu",
+    "emoji": "🌀",
+    "src": "sounds/deja-vu.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "dexter-meme",
+    "name": "Dexter Meme",
+    "emoji": "🧪",
+    "src": "sounds/dexter-meme.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "directed-by-robert",
+    "name": "Directed by Robert B. Weide",
+    "emoji": "🎬",
+    "src": "sounds/directed-by-robert-b_voI2Z4T.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "dun-dun-dunnn",
+    "name": "Dun Dun DUNNN",
+    "emoji": "🎺",
+    "src": "sounds/dun-dun-dun-sound-effect-brass_8nFBccR.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "emotional-damage",
+    "name": "Emotional Damage",
+    "emoji": "💀",
+    "src": "sounds/emotional-damage-meme.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "error-sound",
+    "name": "Error Sound",
+    "emoji": "⚠️",
+    "src": "sounds/error_CDOxCYm.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "faaah",
+    "name": "FAAAH",
+    "emoji": "🗣️",
+    "src": "sounds/faaah.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "fahhhhhhhhhhhhhh",
+    "name": "FAHHHHHHHHHHHHHH",
+    "emoji": "😱",
+    "src": "sounds/fahhhhhhhhhhhhhh.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "fart",
+    "name": "Fart",
+    "emoji": "💨",
+    "src": "sounds/dry-fart.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "fbi-open-up",
+    "name": "FBI Open Up",
+    "emoji": "🚔",
+    "src": "sounds/fbi-open-up_dwLhIFf.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "fortnite-death",
+    "name": "Fortnite Death Sound",
+    "emoji": "🎮",
+    "src": "sounds/tmp_7901-951678082.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "french-meme-song",
+    "name": "French Meme Song",
+    "emoji": "🥖",
+    "src": "sounds/french-meme-song.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "galaxy-brain",
+    "name": "Galaxy Brain",
+    "emoji": "🌌",
+    "src": "sounds/galaxy-meme.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "hub-intro-sound",
+    "name": "Hub Intro Sound",
+    "emoji": "🎵",
+    "src": "sounds/hub-intro-sound.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "huh",
+    "name": "Huh?",
+    "emoji": "🤨",
+    "src": "sounds/huh_37bAoRo.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "i-am-going-to-commit-great-crime",
+    "name": "I Am Going to Commit Great Crime",
+    "emoji": "😈",
+    "src": "sounds/i-am-going-to-commit-great-crime.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "i-like-femboys",
+    "name": "I Like Femboys",
+    "emoji": "🏳️‍🌈",
+    "src": "sounds/i-like-femboys_6JHIoHH.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "lizard-button",
+    "name": "Lizard Button",
+    "emoji": "🦎",
+    "src": "sounds/lizard-button.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "metal-pipe-clang",
+    "name": "Metal Pipe Clang",
+    "emoji": "🔧",
+    "src": "sounds/metal-pipe-clang.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "oh-my-god",
+    "name": "Oh My God Meme",
+    "emoji": "😮",
+    "src": "sounds/oh-my-god-meme.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "rip-my-granny-bazooka",
+    "name": "Rip My Granny Bazooka",
+    "emoji": "💣",
+    "src": "sounds/rip-my-granny-she-got-hit-by-a-bazooka.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "rip-my-granny-loud",
+    "name": "Rip My Granny Loud",
+    "emoji": "💀",
+    "src": "sounds/rip-my-granny-loud-asf.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "rizz-sound-effect",
+    "name": "Rizz Sound Effect",
+    "emoji": "😎",
+    "src": "sounds/rizz-sound-effect.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "romance",
+    "name": "Romance",
+    "emoji": "💕",
+    "src": "sounds/romanceeeeeeeeeeeeee.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "run-vine",
+    "name": "RUN Vine",
+    "emoji": "🏃",
+    "src": "sounds/run-vine-sound-effect.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "sad-violin",
+    "name": "Sad Violin",
+    "emoji": "🎻",
+    "src": "sounds/tf_nemesis.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "shocked",
+    "name": "Shocked",
+    "emoji": "😱",
+    "src": "sounds/shocked-sound-effect.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "snore-mimimimi",
+    "name": "Snore Mimimimi",
+    "emoji": "😴",
+    "src": "sounds/snore-mimimimimimi.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "social-credit-siren",
+    "name": "Social Credit Siren",
+    "emoji": "🚨",
+    "src": "sounds/999-social-credit-siren.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "spiderman-meme-song",
+    "name": "Spiderman Meme Song",
+    "emoji": "🕷️",
+    "src": "sounds/spiderman-meme-song.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "spongebob-fail",
+    "name": "SpongeBob Fail",
+    "emoji": "🧽",
+    "src": "sounds/spongebob-fail.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "they-ask-how-you-are",
+    "name": "They Ask How You Are",
+    "emoji": "🙂",
+    "src": "sounds/they-ask-you-how-you-are-and-you-just-have-to-say-that-youre-fine-sound-effect_IgYM1CV.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "tuco-get-out",
+    "name": "Tuco: GET OUT",
+    "emoji": "😤",
+    "src": "sounds/tuco-get-out.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "undertaker-bell",
+    "name": "Undertaker Bell",
+    "emoji": "🔔",
+    "src": "sounds/undertakers-bell_2UwFCIe.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "vine-boom",
+    "name": "Vine Boom",
+    "emoji": "💥",
+    "src": "sounds/vine-boom.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "we-are-charlie-kirk",
+    "name": "We Are Charlie Kirk",
+    "emoji": "📞",
+    "src": "sounds/we-are-charlie-kirk-phone.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "what-a-good-boy",
+    "name": "What a Good Boy",
+    "emoji": "🐕",
+    "src": "sounds/what-a-good-boy.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "what-da-dog-doin",
+    "name": "What Da Dog Doin",
+    "emoji": "🐕",
+    "src": "sounds/yt1s_wU4BGgD.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "yeah-boiii",
+    "name": "Yeah Boiii",
+    "emoji": "🎉",
+    "src": "sounds/yeah-boiii-i-i-i.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "yes-lara",
+    "name": "Yes! (Lara)",
+    "emoji": "✅",
+    "src": "sounds/yes-lara-voice.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "your-phone-is-ringing",
+    "name": "Your Phone is Ringing",
+    "emoji": "📱",
+    "src": "sounds/youre-phone-is-ringing.mp3",
+    "cat": "meme"
+  }
+]

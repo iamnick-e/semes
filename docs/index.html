@@ -526,7 +526,7 @@
   </div>
 
   <div class="stats-row">
-    <span><strong id="visible-count">51</strong> sounds</span>
+    <span><strong id="visible-count">…</strong> sounds</span>
     <span>·</span>
     <span>Press <kbd style="font-size:0.75rem;background:var(--bg);border:1px solid var(--border);padding:1px 5px;border-radius:3px;">1–0</kbd> for quick play</span>
   </div>
@@ -584,341 +584,18 @@
 // Setup: https://developers.cloudflare.com/workers/ (free tier covers this)
 const COUNTS_API = '';
 
-// ─── Sound catalogue ──────────────────────────────────────────────────────
-const sounds = [
-  {
-    name: 'Vine Boom', src: 'sounds/vine-boom.mp3', cat: 'viral', emoji: '💥', key: '1',
-    meta: {
-      source: 'Vine / Internet',
-      year: '~2013',
-      desc: 'The deep bass impact sound that defined a generation of Vine memes. Used to punctuate unexpected moments and punchlines. Vine died in 2016 — the boom lives forever.'
-    }
-  },
-  {
-    name: 'FAHHHHHHHHHHHHHH', src: 'sounds/fahhhhhhhhhhhhhh.mp3', cat: 'viral', emoji: '😱', key: '2',
-    meta: {
-      source: 'Internet meme',
-      year: 'Unknown',
-      desc: 'A prolonged, anguished yell of despair, horror, or comedic chaos. The longer the FAHHH, the worse the situation. This one is very long. You\'ve been warned.'
-    }
-  },
-  {
-    name: 'Anime Wow', src: 'sounds/anime-wow-sound-effect.mp3', cat: 'meme', emoji: '🌸', key: '3',
-    meta: {
-      source: 'Anime reaction culture',
-      year: '~2010s',
-      desc: 'The exaggerated "wow" lifted from anime reaction scenes. Used sincerely, sarcastically, and everywhere in between. A cornerstone of internet reaction culture.'
-    }
-  },
-  {
-    name: 'SpongeBob Fail', src: 'sounds/spongebob-fail.mp3', cat: 'tv', emoji: '🧽', key: '4',
-    meta: {
-      source: 'SpongeBob SquarePants (Nickelodeon)',
-      year: '1999',
-      desc: '"Grass Skirt Chase" by Sage Guyton & Jeremy Wakefield — the slow, mournful tuba walk used throughout SpongeBob to score defeat and embarrassment. The universal sound of failing.'
-    }
-  },
-  {
-    name: 'Among Us Role Reveal', src: 'sounds/among-us-role-reveal-sound.mp3', cat: 'game', emoji: '🎮', key: '5',
-    meta: {
-      source: 'Among Us — InnerSloth',
-      year: '2020 (peak)',
-      desc: 'The dramatic sting played when Crewmate or Impostor roles are assigned at game start. Perfectly encapsulates the anxiety of discovering you\'re the one who has to do all the murders.'
-    }
-  },
-  {
-    name: 'Metal Pipe Clang', src: 'sounds/metal-pipe-clang.mp3', cat: 'meme', emoji: '🔧', key: '6',
-    meta: {
-      source: 'Roblox / Internet meme',
-      year: '~2019',
-      desc: 'Originally from Roblox\'s sound library, this clang became a meme staple for comedic pain and unexpected impact moments. The spiritual successor to the Roblox oof.'
-    }
-  },
-  {
-    name: 'Rizz Sound Effect', src: 'sounds/rizz-sound-effect.mp3', cat: 'viral', emoji: '😎', key: '7',
-    meta: {
-      source: 'TikTok / Gen Z slang',
-      year: '~2022',
-      desc: '"Rizz" = effortless charm and social magnetism, popularised on TikTok in 2022–23. This is the sonic equivalent of W rizz. Unspoken rizz only.'
-    }
-  },
-  {
-    name: 'Dun Dun DUNNN', src: 'sounds/dun-dun-dun-sound-effect-brass_8nFBccR.mp3', cat: 'meme', emoji: '🎺', key: '8',
-    meta: {
-      source: 'TV drama / Stock SFX',
-      year: 'Classic',
-      desc: 'The quintessential dramatic brass stinger for shocking plot twists. Closely associated with Law & Order (NBC, 1990–present) but used in cinema and TV for decades.'
-    }
-  },
-  {
-    name: 'Apple Pay', src: 'sounds/applepay.mp3', cat: 'sfx', emoji: '💳', key: '9',
-    meta: {
-      source: 'Apple Inc.',
-      year: '~2014',
-      desc: 'The satisfying "ping" of a successful Apple Pay transaction. Now deployed ironically for any financial event, from buying a coffee to a generational wealth flex.'
-    }
-  },
-  {
-    name: 'Undertaker Bell', src: 'sounds/undertakers-bell_2UwFCIe.mp3', cat: 'tv', emoji: '🔔', key: '0',
-    meta: {
-      source: 'WWE / The Undertaker',
-      year: '1990',
-      desc: 'The funeral bell opening of The Undertaker\'s iconic entrance theme "Rest in Peace" by Jim Johnston. Mark Calaway has walked to this bell since Survivor Series 1990. Rest. In. Peace.'
-    }
-  },
-  {
-    name: 'Dexter Meme', src: 'sounds/dexter-meme.mp3', cat: 'tv', emoji: '🧪',
-    meta: {
-      source: 'Dexter\'s Laboratory (Cartoon Network)',
-      year: '1996',
-      desc: 'From Genndy Tartakovsky\'s classic series about a boy genius with a secret lab. Used to underscore overly technical explanations, accidental genius, or the smell of dry-erase markers.'
-    }
-  },
-  {
-    name: 'Tuco: GET OUT', src: 'sounds/tuco-get-out.mp3', cat: 'tv', emoji: '😤',
-    meta: {
-      source: 'Breaking Bad (AMC)',
-      year: '2008',
-      desc: 'Tuco Salamanca (Raymond Cruz) explosively ordering Walter White and Jesse Pinkman out in Season 1. One of the most unhinged characters in TV history. Do not make him wait.'
-    }
-  },
-  {
-    name: 'Bone Crack', src: 'sounds/bone-crack.mp3', cat: 'sfx', emoji: '🦴',
-    meta: {
-      source: 'SFX / Internet',
-      year: 'Unknown',
-      desc: 'The visceral, unsettling crack of bones. Used for terrifying moments, oddly satisfying ASMR, or whenever someone needs to announce they\'ve just popped their back.'
-    }
-  },
-  {
-    name: 'Fart', src: 'sounds/dry-fart.mp3', cat: 'meme', emoji: '💨',
-    meta: {
-      source: 'Human biology',
-      year: 'Since ~500,000 BC',
-      desc: 'A dry fart. Timeless. Universally funny across all cultures, age groups, and centuries of human civilisation. The oldest joke in the book. Perfection.'
-    }
-  },
-  {
-    name: 'Error Sound', src: 'sounds/error_CDOxCYm.mp3', cat: 'sfx', emoji: '⚠️',
-    meta: {
-      source: 'Computer / Windows SFX',
-      year: 'Classic',
-      desc: 'The system error beep. Used when something has gone catastrophically wrong, slightly wrong, or you just want to be dramatic about your life choices.'
-    }
-  },
-  {
-    name: 'Yeah Boiii', src: 'sounds/yeah-boiii-i-i-i.mp3', cat: 'viral', emoji: '🎉',
-    meta: {
-      source: 'Flavor Flav / Public Enemy',
-      year: 'Late 1980s',
-      desc: 'Flavor Flav\'s (William Drayton Jr.) iconic hype-man catchphrase from Public Enemy. Also immortalised by Nickelodeon\'s Kenan & Kel (1996–2000). YEAH BOIIIII.'
-    }
-  },
-  {
-    name: 'Hub Intro Sound', src: 'sounds/hub-intro-sound.mp3', cat: 'meme', emoji: '🎵',
-    meta: {
-      source: 'Internet meme',
-      year: '~2010s',
-      desc: 'The four-note bass groove from the world\'s most recognisable adult website intro. Deployed entirely out of context as a comedic punchline. You already know exactly what this is.'
-    }
-  },
-  {
-    name: 'What a Good Boy', src: 'sounds/what-a-good-boy.mp3', cat: 'viral', emoji: '🐕',
-    meta: {
-      source: 'Internet meme',
-      year: 'Unknown',
-      desc: 'Maximum enthusiasm for minimum effort. Send this to anyone who correctly identifies a fork, remembers to hydrate, or successfully loads a dishwasher on the first try.'
-    }
-  },
-  {
-    name: 'ACK', src: 'sounds/ack.mp3', cat: 'meme', emoji: '😵',
-    meta: {
-      source: 'Internet / onomatopoeia',
-      year: 'Classic',
-      desc: 'The universal sound of sudden shock, disgust, or social crisis. Covers the full spectrum from "I forgot to reply to that email" to "I opened the wrong tab in public."'
-    }
-  },
-  {
-    name: 'Camera Click', src: 'sounds/zvuk-fotoapparata.mp3', cat: 'sfx', emoji: '📷',
-    meta: {
-      source: 'Camera SFX',
-      year: 'Classic',
-      desc: '"Zvuk fotoapparata" — Russian for "camera sound." The satisfying shutter click for capturing a perfect, hideous, or deeply incriminating moment in time.'
-    }
-  },
-  {
-    name: 'Galaxy Brain', src: 'sounds/galaxy-meme.mp3', cat: 'meme', emoji: '🌌',
-    meta: {
-      source: 'Internet meme (Reddit)',
-      year: '~2017',
-      desc: 'Soundtrack to the expanding brain template — where each step of reasoning becomes more absurd. Started on Reddit c.2017 as a format for beautifully unhinged logic. You\'ve solved it.'
-    }
-  },
-  {
-    name: 'Lizard Button', src: 'sounds/lizard-button.mp3', cat: 'meme', emoji: '🦎',
-    meta: {
-      source: 'Internet meme',
-      year: 'Unknown',
-      desc: 'A mysterious, cursed button sound from the depths of internet meme culture. What does it mean? Where does it come from? Should you press it? Yes. Always press it.'
-    }
-  },
-  {
-    name: 'Romance', src: 'sounds/romanceeeeeeeeeeeeee.mp3', cat: 'meme', emoji: '💕',
-    meta: {
-      source: 'Music SFX / Internet',
-      year: 'Unknown',
-      desc: 'A sustained, overwrought romantic sting (note: the file is spelled romanceeeeeeeeeeeeee and that feels correct). For injecting totally unearned emotional tension into any mundane situation.'
-    }
-  },
-  {
-    name: 'I Am Going to Commit Great Crime', src: 'sounds/i-am-going-to-commit-great-crime.mp3', cat: 'meme', emoji: '😈',
-    meta: {
-      source: 'Internet meme',
-      year: '~2021',
-      desc: 'The wholesome villain arc everyone goes on when someone steals their parking spot or eats their sandwich. The crime is almost never that great. Usually it\'s jaywalking.'
-    }
-  },
-  {
-    name: 'Rip My Granny Bazooka', src: 'sounds/rip-my-granny-she-got-hit-by-a-bazooka.mp3', cat: 'viral', emoji: '💣',
-    meta: {
-      source: 'Viral video / song',
-      year: 'Unknown',
-      desc: 'From a chaotic internet video/song about a grandmother and an explosive incident. Internet humour operating at peak chaos. RIP granny. She would have wanted this.'
-    }
-  },
-  {
-    name: 'Rip My Granny Loud', src: 'sounds/rip-my-granny-loud-asf.mp3', cat: 'viral', emoji: '💀',
-    meta: {
-      source: 'Viral video / song (loud cut)',
-      year: 'Unknown',
-      desc: 'The significantly louder version of the same granny-related incident. For when the standard bazooka version doesn\'t convey the true scale of events. Headphone warning.'
-    }
-  },
-  {
-    name: 'Your Phone is Ringing', src: 'sounds/youre-phone-is-ringing.mp3', cat: 'sfx', emoji: '📱',
-    meta: {
-      source: 'Nokia ringtone / phone meme',
-      year: 'Classic',
-      desc: 'The universally recognised ringtone that became a meme because yes, we know, everyone can hear it. Named and shamed. Please put it on silent.'
-    }
-  },
-  {
-    name: 'Yes! (Lara)', src: 'sounds/yes-lara-voice.mp3', cat: 'viral', emoji: '✅',
-    meta: {
-      source: 'Internet meme / voice clip',
-      year: 'Unknown',
-      desc: 'An enthusiastic "Yes!" from a voice called Lara. Used to celebrate achievements ranging from "I made my bed" to "I filed my taxes before the deadline for once."'
-    }
-  },
-  {
-    name: 'Chicken Screaming', src: 'sounds/chicken-on-tree-screaming.mp3', cat: 'meme', emoji: '🐔',
-    meta: {
-      source: 'Viral video',
-      year: 'Unknown',
-      desc: 'A chicken on a tree emitting the loudest, most soul-piercing scream ever recorded. Went viral for perfectly capturing the energy of existing in the modern world. Relatable.'
-    }
-  },
-  {
-    name: 'We Are Charlie Kirk', src: 'sounds/we-are-charlie-kirk-phone.mp3', cat: 'viral', emoji: '📞',
-    meta: {
-      source: 'Internet meme / Charlie Kirk',
-      year: '~2022',
-      desc: 'Based on a viral meme format featuring conservative commentator Charlie Kirk. Functions as both a phone-answering meme and an unsolicited opinion delivery system.'
-    }
-  },
-  {
-    name: 'I Like Femboys', src: 'sounds/i-like-femboys_6JHIoHH.mp3', cat: 'viral', emoji: '🏳️‍🌈',
-    meta: {
-      source: 'Internet meme / TikTok',
-      year: '~2021',
-      desc: 'The audio clip that launched a thousand reaction videos and at least one life-changing conversation. Unapologetic, iconic, and certified internet classic. No notes.'
-    }
-  },
-  {
-    name: 'FAAAH', src: 'sounds/faaah.mp3', cat: 'viral', emoji: '🗣️',
-    meta: {
-      source: 'Internet meme / yell',
-      year: 'Unknown',
-      desc: 'The shorter, sharper cousin of FAHHHHHHHHHHHHHH. For when you need to express panic, horror, or mild inconvenience in under two seconds. Time-efficient screaming.'
-    }
-  },
-  {
-    name: 'Baby Laughing Meme', src: 'sounds/baby-laughing-meme.mp3', cat: 'meme', emoji: '😂',
-    meta: { source: 'Internet meme', year: 'Unknown', desc: 'A baby losing it with laughter. Pure unfiltered joy. Deploy when something is genuinely too funny.' }
-  },
-  {
-    name: 'Emotional Damage', src: 'sounds/emotional-damage-meme.mp3', cat: 'meme', emoji: '💀',
-    meta: { source: 'Steven He / YouTube', year: '2021', desc: '"EMOTIONAL DAMAGE." Steven He\'s iconic line used whenever someone gets roasted, insulted, or hit with uncomfortable truth.' }
-  },
-  {
-    name: 'Sad Violin', src: 'sounds/tf_nemesis.mp3', cat: 'meme', emoji: '🎻',
-    meta: { source: 'Internet meme', year: 'Classic', desc: 'The world\'s smallest violin, playing just for you. For when someone\'s complaining about a problem that is entirely their own fault.' }
-  },
-  {
-    name: 'Shocked', src: 'sounds/shocked-sound-effect.mp3', cat: 'sfx', emoji: '😱',
-    meta: { source: 'Sound effect', year: 'Unknown', desc: 'Dramatic shocked stinger. When something is genuinely unbelievable and you need the audio to confirm it.' }
-  },
-  {
-    name: 'RUN Vine', src: 'sounds/run-vine-sound-effect.mp3', cat: 'viral', emoji: '🏃',
-    meta: { source: 'Vine', year: '2013', desc: 'The iconic Vine sound that signals immediate evacuation is required. Legs are already moving.' }
-  },
-  {
-    name: 'Snore Mimimimi', src: 'sounds/snore-mimimimimimi.mp3', cat: 'meme', emoji: '😴',
-    meta: { source: 'Internet meme', year: 'Unknown', desc: 'Cartoon snoring sound. Perfect for when someone is boring you to actual death.' }
-  },
-  {
-    name: 'Social Credit Siren', src: 'sounds/999-social-credit-siren.mp3', cat: 'meme', emoji: '🚨',
-    meta: { source: 'Internet meme', year: '2020s', desc: 'Your social credit score is dropping. Deployed whenever someone does something questionable.' }
-  },
-  {
-    name: 'Huh?', src: 'sounds/huh_37bAoRo.mp3', cat: 'meme', emoji: '🤨',
-    meta: { source: 'Asian meme', year: 'Unknown', desc: 'A single confused "huh?" that perfectly encapsulates complete bewilderment.' }
-  },
-  {
-    name: 'What Da Dog Doin', src: 'sounds/yt1s_wU4BGgD.mp3', cat: 'meme', emoji: '🐕',
-    meta: { source: 'Internet meme', year: '2021', desc: 'What IS the dog doing though? A question for the ages.' }
-  },
-  {
-    name: 'Oh My God Meme', src: 'sounds/oh-my-god-meme.mp3', cat: 'meme', emoji: '😮',
-    meta: { source: 'Internet meme', year: 'Unknown', desc: 'Oh. My. God. For moments of genuine disbelief, shock, or second-hand embarrassment.' }
-  },
-  {
-    name: 'Long Brain Fart', src: 'sounds/long-brain-fart.mp3', cat: 'meme', emoji: '🧠',
-    meta: { source: 'Internet meme', year: 'Unknown', desc: 'Extended cerebral flatulence. When your brain just completely gives up trying.' }
-  },
-  {
-    name: 'Deja Vu', src: 'sounds/deja-vu.mp3', cat: 'meme', emoji: '🌀',
-    meta: { source: 'Initial D / Internet meme', year: '2000s', desc: 'I\'ve just been in this place before. The iconic Initial D track turned meme. For moments of repetition.' }
-  },
-  {
-    name: 'French Meme Song', src: 'sounds/french-meme-song.mp3', cat: 'meme', emoji: '🥖',
-    meta: { source: 'Internet meme', year: 'Unknown', desc: 'Omelette du fromage. The essential French meme musical experience.' }
-  },
-  {
-    name: 'Directed by Robert B. Weide', src: 'sounds/directed-by-robert-b_voI2Z4T.mp3', cat: 'meme', emoji: '🎬',
-    meta: { source: 'Curb Your Enthusiasm', year: '2011', desc: 'The Curb Your Enthusiasm outro. For when a situation deteriorates into an absolute comedy of errors of your own making.' }
-  },
-  {
-    name: 'FBI Open Up', src: 'sounds/fbi-open-up_dwLhIFf.mp3', cat: 'meme', emoji: '🚔',
-    meta: { source: 'Internet meme', year: '2010s', desc: 'FBI OPEN UP. Someone has been caught doing something very, very suspicious.' }
-  },
-  {
-    name: 'Spiderman Meme Song', src: 'sounds/spiderman-meme-song.mp3', cat: 'meme', emoji: '🕷️',
-    meta: { source: 'Spider-Man / meme', year: '2021', desc: 'The three Spidermen pointing at each other meme in audio form.' }
-  },
-  {
-    name: 'They Ask How You Are', src: 'sounds/they-ask-you-how-you-are-and-you-just-have-to-say-that-youre-fine-sound-effect_IgYM1CV.mp3', cat: 'meme', emoji: '🙂',
-    meta: { source: 'Internet meme', year: '2010s', desc: 'They ask you how you are and you just have to say that you\'re fine when you\'re not really fine.' }
-  },
-  {
-    name: 'Cat Laugh Meme', src: 'sounds/cat-laugh-meme-1.mp3', cat: 'meme', emoji: '😹',
-    meta: { source: 'Internet meme', year: 'Unknown', desc: 'A cat doing a suspicious little laugh. Deploy with extreme prejudice.' }
-  },
-  {
-    name: 'Fortnite Death Sound', src: 'sounds/tmp_7901-951678082.mp3', cat: 'game', emoji: '🎮',
-    meta: { source: 'Fortnite', year: '2017', desc: 'The Fortnite elimination sound. Someone has been absolutely eliminated.' }
-  },
-];
+// ─── Sound catalogue (dynamic) ───────────────────────────────────────────
+let sounds = [];
+
+async function loadSounds() {
+  const res = await fetch('sounds.json?v=' + Date.now());
+  const data = await res.json();
+  // Assign keyboard shortcuts to first 10
+  const keys = ['1','2','3','4','5','6','7','8','9','0'];
+  sounds = data.map((s, i) => ({ ...s, key: keys[i] || '' }));
+  return sounds;
+}
+
 
 // ─── State ────────────────────────────────────────────────────────────────
 let currentAudio = null;
@@ -1202,7 +879,10 @@ themeBtn.addEventListener('click', () => {
 });
 
 // ─── Load global counts (background) ─────────────────────────────────────
-loadGlobalCounts();
+  loadGlobalCounts();
+} // end init()
+
+loadSounds().then(() => init());
 </script>
 </body>
 </html>
