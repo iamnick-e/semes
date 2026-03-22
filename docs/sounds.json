@@ -3715,5 +3715,61 @@
     "emoji": "💻",
     "src": "sounds/technology.mp3",
     "cat": "meme"
+  },
+  {
+    "slug": "woah-technology",
+    "name": "Woah Technology",
+    "emoji": "💻",
+    "src": "sounds/yandere-dev-woah-technology.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "we-have-technology-patrick-star",
+    "name": "We Have Technology - Patrick Star",
+    "emoji": "⭐",
+    "src": "sounds/1564453119.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "citroen-creative-technology",
+    "name": "Citroen Creative Technology",
+    "emoji": "🚗",
+    "src": "sounds/creative-technology.mp3",
+    "cat": "sfx"
+  },
+  {
+    "slug": "integrating-dangerous-alien-technology",
+    "name": "Integrating Dangerous Alien Technology",
+    "emoji": "👽",
+    "src": "sounds/intagrating-dangerous-alien-technology.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "afraid-of-technology",
+    "name": "Afraid of Technology",
+    "emoji": "😰",
+    "src": "sounds/afraid-of-technology.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "jaffe-institute-of-technology",
+    "name": "Jaffe Institute of Technology",
+    "emoji": "🎓",
+    "src": "sounds/jaffe-institute-of-technology.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "you-wanted-smart-technology",
+    "name": "You Wanted Smart Technology",
+    "emoji": "🤖",
+    "src": "sounds/you-wanted-smart-technology.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "nescafe-peak-chinese-technology",
+    "name": "Nescafe Peak Chinese Technology",
+    "emoji": "☕",
+    "src": "sounds/nescafe-ad-peak-chinese-technology.mp3",
+    "cat": "meme"
   }
 ]
