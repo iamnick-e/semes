@@ -3771,5 +3771,33 @@
     "emoji": "☕",
     "src": "sounds/nescafe-ad-peak-chinese-technology.mp3",
     "cat": "meme"
+  },
+  {
+    "slug": "technologia",
+    "name": "Technologia",
+    "emoji": "🎵",
+    "src": "sounds/technologia.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "technoloyia-technologia-tecnologia",
+    "name": "Technoloyia Technologia Tecnologia",
+    "emoji": "🎵",
+    "src": "sounds/technoloyia-technologia-tecnologia.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "technologiaa",
+    "name": "Technologiaa",
+    "emoji": "🎵",
+    "src": "sounds/technologiaa.mp3",
+    "cat": "meme"
+  },
+  {
+    "slug": "technologia-reverse",
+    "name": "Technologia Reverse",
+    "emoji": "🔄",
+    "src": "sounds/technologia-reverse.mp3",
+    "cat": "meme"
   }
 ]
