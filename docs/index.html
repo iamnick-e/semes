@@ -619,6 +619,10 @@ let activeSort   = 'default';
 // ─── Play counts ──────────────────────────────────────────────────────────
 const displayCounts = {};
 
+function displayName(name) {
+  return name.replace(/\bmeme\b/gi, '').replace(/\s{2,}/g, ' ').trim();
+}
+
 function slugify(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
@@ -684,7 +688,7 @@ sounds.forEach((s, i) => {
     ${s.key ? `<span class="kbd-badge">${s.key}</span>` : ''}
     <button class="btn-play" aria-label="Play ${s.name}">
       <span class="play-tri"></span>
-      <span class="sound-name">${s.emoji} ${s.name}</span>
+      <span class="sound-name">${s.emoji} ${displayName(s.name)}</span>
     </button>
     <div class="progress-bar"><div class="progress-fill"></div></div>
     <div class="card-footer">
@@ -770,7 +774,7 @@ function triggerSound(s, i, card, btn, progress) {
   });
 
   audio.play().catch(() => {});
-  showNowPlaying(s.emoji + ' ' + s.name);
+  showNowPlaying(s.emoji + ' ' + displayName(s.name));
 }
 
 function showNowPlaying(name) {
@@ -791,7 +795,7 @@ function openInfoModal(i) {
   const s = sounds[i];
   modalSoundIdx = i;
   document.getElementById('info-emoji').textContent  = s.emoji;
-  document.getElementById('info-name').textContent   = s.name;
+  document.getElementById('info-name').textContent   = displayName(s.name);
   document.getElementById('info-source').textContent = s.meta.source;
   document.getElementById('info-year').textContent   = s.meta.year;
   document.getElementById('info-cat').textContent    = s.cat.toUpperCase();
