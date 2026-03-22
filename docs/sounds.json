@@ -1,26 +1,5 @@
 [
   {
-    "slug": "1-1",
-    "name": "1_ตลกตบมุก_1",
-    "emoji": "😂",
-    "src": "sounds/1-tlktbmuk-1.mp3",
-    "cat": "meme"
-  },
-  {
-    "slug": "2",
-    "name": "ЫЫЫ Стандоф 2 говно",
-    "emoji": "😂",
-    "src": "sounds/yyy-standof-2-govno.mp3",
-    "cat": "meme"
-  },
-  {
-    "slug": "2-2",
-    "name": "2_ตลกตบมุก_2",
-    "emoji": "😂",
-    "src": "sounds/2-tlktbmuk-2.mp3",
-    "cat": "meme"
-  },
-  {
     "slug": "21-vine",
     "name": "21 vine",
     "emoji": "🔥",
@@ -35,24 +14,10 @@
     "cat": "meme"
   },
   {
-    "slug": "3-3",
-    "name": "3_ตลกตบมุก_3",
-    "emoji": "😂",
-    "src": "sounds/3-tlktbmuk-3.mp3",
-    "cat": "meme"
-  },
-  {
     "slug": "300-black-men-for-only-two-pounds",
     "name": "300 black men for only two pounds",
     "emoji": "😂",
     "src": "sounds/300-black-men-for-only-two-pounds.mp3",
-    "cat": "meme"
-  },
-  {
-    "slug": "4-4",
-    "name": "4_ตลกตบมุก_4",
-    "emoji": "😂",
-    "src": "sounds/4-tlktbmuk-4.mp3",
     "cat": "meme"
   },
   {
@@ -74,13 +39,6 @@
     "name": "67 brain fart",
     "emoji": "😂",
     "src": "sounds/67-brain-fart.mp3",
-    "cat": "meme"
-  },
-  {
-    "slug": "7",
-    "name": "7_เปิดตัวตลกคาเฟ่",
-    "emoji": "😂",
-    "src": "sounds/7-epidtawtlkkhaaef.mp3",
     "cat": "meme"
   },
   {
@@ -1309,24 +1267,10 @@
     "cat": "meme"
   },
   {
-    "slug": "hello-there-obi-wan",
-    "name": "“Hello There” Obi Wan",
-    "emoji": "😂",
-    "src": "sounds/obi-wan_says_hello_thereyoutubetomp4.mp3",
-    "cat": "meme"
-  },
-  {
     "slug": "hey-let-her-go",
     "name": "Hey let her go!",
     "emoji": "😂",
     "src": "sounds/let-her-go.mp3",
-    "cat": "meme"
-  },
-  {
-    "slug": "heyy-daddyyyyy-omg",
-    "name": "Heyy daddyyyyy⁓ omg",
-    "emoji": "😂",
-    "src": "sounds/heyy-daddyyyyy-omg.mp3",
     "cat": "meme"
   },
   {
@@ -1393,13 +1337,6 @@
     "cat": "meme"
   },
   {
-    "slug": "hypnodancer-meme",
-    "name": "гипно дэнс | hypnodancer meme",
-    "emoji": "😂",
-    "src": "sounds/gipno-dens-hypnodancer-meme.mp3",
-    "cat": "meme"
-  },
-  {
     "slug": "i-am-going-to-commit-great-crime",
     "name": "I Am Going to Commit Great Crime",
     "emoji": "😈",
@@ -1453,13 +1390,6 @@
     "name": "I like your cut, \\u0022G\\u0022! (revisited)",
     "emoji": "😂",
     "src": "sounds/i-like-your-cut-g-revisited.mp3",
-    "cat": "meme"
-  },
-  {
-    "slug": "i-m-bout-to-cuh",
-    "name": "I’m bout to cuh",
-    "emoji": "😂",
-    "src": "sounds/im-bout-to-cuh.mp3",
     "cat": "meme"
   },
   {
@@ -2349,13 +2279,6 @@
     "name": "OK \\u002D Même",
     "emoji": "😂",
     "src": "sounds/okay-meme.mp3",
-    "cat": "meme"
-  },
-  {
-    "slug": "okay-let-s-go",
-    "name": "Okay let’s go",
-    "emoji": "😂",
-    "src": "sounds/meme-okay-lets-go.mp3",
     "cat": "meme"
   },
   {
@@ -3771,5 +3694,12 @@
     "emoji": "😂",
     "src": "sounds/e_q6HEsUJ.mp3",
     "cat": "meme"
+  },
+  {
+    "slug": "hello-there-obi-wan",
+    "name": "Hello There - Obi Wan",
+    "emoji": "🧙",
+    "src": "sounds/obi-wan-hello-there.mp3",
+    "cat": "tv"
   }
 ]
