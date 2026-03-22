@@ -3799,5 +3799,33 @@
     "emoji": "🔄",
     "src": "sounds/technologia-reverse.mp3",
     "cat": "meme"
+  },
+  {
+    "slug": "matt-damon-team-america",
+    "name": "Matt Damon - Team America",
+    "emoji": "🎬",
+    "src": "sounds/matt-damon_1.mp3",
+    "cat": "tv"
+  },
+  {
+    "slug": "gonna-need-a-montage-team-america",
+    "name": "Gonna Need a Montage - Team America",
+    "emoji": "🎬",
+    "src": "sounds/track13.mp3",
+    "cat": "tv"
+  },
+  {
+    "slug": "why-is-everyone-so-f-ing-stupid-team-america",
+    "name": "Why Is Everyone So F***ing Stupid - Team America",
+    "emoji": "🎬",
+    "src": "sounds/why-is-everyone-so-f-ing-stupid.mp3",
+    "cat": "tv"
+  },
+  {
+    "slug": "team-america-pearl-harbor",
+    "name": "Team America Pearl Harbor",
+    "emoji": "🎬",
+    "src": "sounds/track10.mp3",
+    "cat": "tv"
   }
 ]
