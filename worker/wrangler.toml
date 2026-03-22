@@ -1,0 +1,7 @@
+name = "semes-counts"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "COUNTS"
+id = "48fc3d0c85974b97b9a606a088be8f6e"
