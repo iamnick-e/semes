@@ -3708,5 +3708,12 @@
     "emoji": "🚀",
     "src": "sounds/technology-from-the-future.mp3",
     "cat": "sfx"
+  },
+  {
+    "slug": "technology",
+    "name": "TECHNOLOGY",
+    "emoji": "💻",
+    "src": "sounds/technology.mp3",
+    "cat": "meme"
   }
 ]
