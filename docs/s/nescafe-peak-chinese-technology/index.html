@@ -20,8 +20,16 @@
 </div>
   <script>
     const btn=document.getElementById('btn'),prog=document.getElementById('prog');let audio=null;
+    
+    // Track play count
+    const COUNTS_API = 'https://semes-counts.nick-f16.workers.dev';
+    const slug = location.pathname.replace(/\/+$/,'').split('/').pop();
+    function trackPlay() {
+      if (!COUNTS_API) return;
+      fetch(COUNTS_API + '/' + slug, { method: 'POST' }).catch(() => {});
+    }
     function start(){audio=new Audio('../../sounds/nescafe-ad-peak-chinese-technology.mp3');btn.textContent='⏸';audio.addEventListener('timeupdate',()=>{if(audio.duration)prog.style.width=(audio.currentTime/audio.duration*100)+'%'});audio.addEventListener('ended',()=>{btn.textContent='▶';prog.style.width='0%';audio=null});return audio.play()}
-    btn.addEventListener('click',()=>{if(audio&&!audio.paused){audio.pause();audio.currentTime=0;btn.textContent='▶';return}start().catch(()=>{});});
-    window.addEventListener('load',()=>start().catch(()=>{btn.textContent='▶'}));
+    btn.addEventListener('click',()=>{if(audio&&!audio.paused){audio.pause();audio.currentTime=0;btn.textContent='▶';return}start().then(()=>trackPlay()).catch(()=>{});});
+    window.addEventListener('load',()=>start().then(()=>trackPlay()).catch(()=>{btn.textContent='▶'}));
   </script>
 </body></html>
