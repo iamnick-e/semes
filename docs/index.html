@@ -613,8 +613,7 @@ const likes      = JSON.parse(localStorage.getItem('semes-likes') || '{}');
 let activeFilter = 'all';
 
 // ─── Play counts ──────────────────────────────────────────────────────────
-const localCounts   = JSON.parse(localStorage.getItem('semes-counts') || '{}');
-const displayCounts = { ...localCounts };
+const displayCounts = {};
 
 function slugify(name) {
   return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -635,18 +634,16 @@ function updateCountEl(slug) {
 }
 
 async function incrementCount(slug) {
-  localCounts[slug]   = (localCounts[slug] || 0) + 1;
-  displayCounts[slug] = Math.max(displayCounts[slug] || 0, localCounts[slug]);
-  localStorage.setItem('semes-counts', JSON.stringify(localCounts));
+  displayCounts[slug] = (displayCounts[slug] || 0) + 1;
   updateCountEl(slug);
 
   if (COUNTS_API) {
     try {
       const res  = await fetch(`${COUNTS_API}/${slug}`, { method: 'POST' });
       const data = await res.json();
-      displayCounts[slug] = Math.max(displayCounts[slug], data.count || 0);
+      displayCounts[slug] = data.count || displayCounts[slug];
       updateCountEl(slug);
-    } catch (_) { /* silent — local count already saved */ }
+    } catch (_) { /* silent */ }
   }
 }
 
