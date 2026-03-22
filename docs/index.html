@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Semes — Instant Sound Buttons</title>
+  <!-- Apply theme before render to avoid flash -->
+  <script>
+    (function() {
+      const s = localStorage.getItem('semes-theme');
+      const dark = s ? s === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (dark) document.documentElement.dataset.theme = 'dark';
+    })();
+  </script>
   <style>
     :root {
       --bg: #f2f2f2;
@@ -869,13 +877,28 @@ handleHash();
 
 // ─── Dark mode ────────────────────────────────────────────────────────────
 const themeBtn = document.getElementById('btn-theme');
-const saved    = localStorage.getItem('semes-theme');
-if (saved === 'dark') { document.documentElement.dataset.theme = 'dark'; themeBtn.textContent = '☀️'; }
+
+function applyTheme(dark) {
+  document.documentElement.dataset.theme = dark ? 'dark' : '';
+  themeBtn.textContent = dark ? '☀️' : '🌙';
+}
+
+// Determine initial theme: explicit user override → system preference
+const saved = localStorage.getItem('semes-theme');
+if (saved) {
+  applyTheme(saved === 'dark');
+} else {
+  applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
+}
+
+// Follow system changes live (unless user has manually overridden)
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  if (!localStorage.getItem('semes-theme')) applyTheme(e.matches);
+});
 
 themeBtn.addEventListener('click', () => {
   const isDark = document.documentElement.dataset.theme === 'dark';
-  document.documentElement.dataset.theme = isDark ? '' : 'dark';
-  themeBtn.textContent = isDark ? '🌙' : '☀️';
+  applyTheme(!isDark);
   localStorage.setItem('semes-theme', isDark ? 'light' : 'dark');
 });
 
