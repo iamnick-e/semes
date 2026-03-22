@@ -152,7 +152,7 @@
       user-select: none;
     }
     .chip:hover { border-color: var(--accent); color: var(--accent); }
-    .chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .chip.active, .chip.active-sort { background: var(--accent); border-color: var(--accent); color: #fff; }
 
     /* ─── Sound Grid ─── */
     #sound-grid {
@@ -531,6 +531,9 @@
     <button class="chip" data-cat="game">Game</button>
     <button class="chip" data-cat="tv">TV &amp; Film</button>
     <button class="chip" data-cat="sfx">SFX</button>
+    <span class="filter-label" style="margin-left:1rem">Sort:</span>
+    <button class="chip active-sort" data-sort="default" id="sort-default">Default</button>
+    <button class="chip" data-sort="plays" id="sort-plays">🔥 Most Played</button>
   </div>
 
   <div class="stats-row">
@@ -611,6 +614,7 @@ let currentCard  = null;
 let npTimer      = null;
 const likes      = JSON.parse(localStorage.getItem('semes-likes') || '{}');
 let activeFilter = 'all';
+let activeSort   = 'default';
 
 // ─── Play counts ──────────────────────────────────────────────────────────
 const displayCounts = {};
@@ -656,6 +660,7 @@ async function loadGlobalCounts() {
       displayCounts[s] = Math.max(displayCounts[s] || 0, n);
     }
     sounds.forEach(s => updateCountEl(slugify(s.name)));
+    if (activeSort === 'plays') applyFilters(); // re-sort grid with fresh counts
   } catch (_) { /* silent */ }
 }
 
@@ -670,8 +675,10 @@ sounds.forEach((s, i) => {
   const slug = slugify(s.name);
   const card = document.createElement('div');
   card.className = 'sound-card';
-  card.dataset.name = s.name.toLowerCase();
-  card.dataset.cat  = s.cat;
+  card.dataset.name  = s.name.toLowerCase();
+  card.dataset.cat   = s.cat;
+  card.dataset.slug  = slugify(s.name);
+  card.dataset.index = i;
 
   card.innerHTML = `
     ${s.key ? `<span class="kbd-badge">${s.key}</span>` : ''}
@@ -831,11 +838,20 @@ document.addEventListener('keydown', e => {
 const searchEl = document.getElementById('search');
 searchEl.addEventListener('input', applyFilters);
 
-document.querySelectorAll('.chip').forEach(chip => {
+document.querySelectorAll('.chip[data-cat]').forEach(chip => {
   chip.addEventListener('click', () => {
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.chip[data-cat]').forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
     activeFilter = chip.dataset.cat;
+    applyFilters();
+  });
+});
+
+document.querySelectorAll('.chip[data-sort]').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.chip[data-sort]').forEach(c => c.classList.remove('active-sort'));
+    chip.classList.add('active-sort');
+    activeSort = chip.dataset.sort;
     applyFilters();
   });
 });
@@ -844,7 +860,24 @@ function applyFilters() {
   const q   = searchEl.value.trim().toLowerCase();
   const cat = activeFilter;
   let visible = 0;
-  Array.from(grid.querySelectorAll('.sound-card')).forEach(card => {
+
+  const cards = Array.from(grid.querySelectorAll('.sound-card'));
+
+  // Sort if needed
+  if (activeSort === 'plays') {
+    cards.sort((a, b) => {
+      const aCount = displayCounts[a.dataset.slug] || 0;
+      const bCount = displayCounts[b.dataset.slug] || 0;
+      return bCount - aCount;
+    });
+    cards.forEach(c => grid.appendChild(c));
+  } else if (activeSort === 'default') {
+    // Restore original order by index
+    cards.sort((a, b) => parseInt(a.dataset.index) - parseInt(b.dataset.index));
+    cards.forEach(c => grid.appendChild(c));
+  }
+
+  cards.forEach(card => {
     const nameMatch = !q || card.dataset.name.includes(q);
     const catMatch  = cat === 'all' || card.dataset.cat === cat;
     const show = nameMatch && catMatch;
