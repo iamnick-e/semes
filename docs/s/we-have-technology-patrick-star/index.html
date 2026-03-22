@@ -13,9 +13,10 @@
   <div class="player"><div class="sound-emoji">⭐</div><div class="sound-name">We Have Technology - Patrick Star</div>
     <button class="btn-play" id="btn">▶</button>
     <div class="progress-wrap"><div class="progress-fill" id="prog"></div></div>
+    <div id="play-count" style="font-size:.8rem;color:#888;min-height:1.2em"></div>
   </div>
   <div style="text-align:center">
-  <a class="back-link" href="../../"><span>🔊</span> Semes Soundboard</a>
+  <a class="back-link" href="../../"><span>🔊</span> More sounds on the soundboard</a>
   <p style="font-size:.75rem;color:#555;margin-top:.5rem">500+ instant sound buttons</p>
 </div>
   <script>
@@ -26,10 +27,21 @@
     const slug = location.pathname.replace(/\/+$/,'').split('/').pop();
     function trackPlay() {
       if (!COUNTS_API) return;
-      fetch(COUNTS_API + '/' + slug, { method: 'POST' }).catch(() => {});
+      fetch(COUNTS_API + '/' + slug, { method: 'POST' }).then(r=>r.json()).then(d=>{ const n=d.count||0; countEl.textContent=n>0?n.toLocaleString()+' plays':''; }).catch(() => {});
     }
     function start(){audio=new Audio('../../sounds/1564453119.mp3');btn.textContent='⏸';audio.addEventListener('timeupdate',()=>{if(audio.duration)prog.style.width=(audio.currentTime/audio.duration*100)+'%'});audio.addEventListener('ended',()=>{btn.textContent='▶';prog.style.width='0%';audio=null});return audio.play()}
     btn.addEventListener('click',()=>{if(audio&&!audio.paused){audio.pause();audio.currentTime=0;btn.textContent='▶';return}start().then(()=>trackPlay()).catch(()=>{});});
     window.addEventListener('load',()=>start().then(()=>trackPlay()).catch(()=>{btn.textContent='▶'}));
+  
+    // Fetch and display count
+    const countEl = document.getElementById('play-count');
+    function fetchCount() {
+      if (!COUNTS_API) return;
+      fetch(COUNTS_API + '/' + slug).then(r=>r.json()).then(d=>{
+        const n = d.count || 0;
+        countEl.textContent = n > 0 ? n.toLocaleString() + ' plays' : '';
+      }).catch(()=>{});
+    }
+    fetchCount();
   </script>
 </body></html>

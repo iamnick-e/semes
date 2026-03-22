@@ -55,10 +55,11 @@
     <div class="sound-name">danger alarm sound effect meme</div>
     <button class="btn-play" id="btn" aria-label="Play">▶</button>
     <div class="progress-wrap"><div class="progress-fill" id="prog"></div></div>
+    <div id="play-count" style="font-size:.8rem;color:#888;min-height:1.2em"></div>
     <div class="status" id="status"></div>
   </div>
   <div style="text-align:center">
-  <a class="back-link" href="../../"><span>🔊</span> Semes Soundboard</a>
+  <a class="back-link" href="../../"><span>🔊</span> More sounds on the soundboard</a>
   <p style="font-size:.75rem;color:#555;margin-top:.5rem">500+ instant sound buttons</p>
 </div>
   <script>
@@ -92,6 +93,17 @@
         status.textContent = 'Tap play to listen'; audio = null;
       });
     });
+  
+    // Fetch and display count
+    const countEl = document.getElementById('play-count');
+    function fetchCount() {
+      if (!COUNTS_API) return;
+      fetch(COUNTS_API + '/' + slug).then(r=>r.json()).then(d=>{
+        const n = d.count || 0;
+        countEl.textContent = n > 0 ? n.toLocaleString() + ' plays' : '';
+      }).catch(()=>{});
+    }
+    fetchCount();
   </script>
 </body>
 </html>
