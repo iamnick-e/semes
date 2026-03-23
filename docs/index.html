@@ -665,8 +665,7 @@ async function loadGlobalCounts() {
       displayCounts[s] = Math.max(displayCounts[s] || 0, n);
     }
     sounds.forEach(s => updateCountEl(slugify(s.name)));
-    if (activeSort === 'plays') applyFilters(); // re-sort grid with fresh counts
-  } catch (_) { /* silent */ }
+    if (activeSort === 'plays') applyFilters(); // re-sort grid with fresh counts  } catch (_) { /* silent */ }
 }
 
 // ─── Build grid ───────────────────────────────────────────────────────────
@@ -888,8 +887,8 @@ function applyFilters() {
     cards.forEach(c => grid.appendChild(c));
   } else if (activeSort === 'liked') {
     cards.sort((a, b) => {
-      const aLiked = likes[a.dataset.slug] ? 1 : 0;
-      const bLiked = likes[b.dataset.slug] ? 1 : 0;
+      const aLiked = likes[parseInt(a.dataset.index)] ? 1 : 0;
+      const bLiked = likes[parseInt(b.dataset.index)] ? 1 : 0;
       return bLiked - aLiked;
     });
     cards.forEach(c => grid.appendChild(c));
@@ -955,9 +954,8 @@ themeBtn.addEventListener('click', () => {
 });
 
 // ─── Load global counts (background) ─────────────────────────────────────
-  loadGlobalCounts();
-  // Apply saved filter/sort state after grid is built
-  applyFilters();
+  applyFilters(); // apply saved filter/sort immediately (liked works right away)
+  loadGlobalCounts(); // counts load async; re-sorts 'plays' automatically when done
 } // end init()
 
 loadSounds().then(() => init());
