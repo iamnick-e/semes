@@ -534,6 +534,7 @@
     <span class="filter-label" style="margin-left:1rem">Sort:</span>
     <button class="chip active-sort" data-sort="default" id="sort-default">Default</button>
     <button class="chip" data-sort="plays" id="sort-plays">🔥 Most Played</button>
+    <button class="chip" data-sort="liked" id="sort-liked">❤️ Liked</button>
   </div>
 
   <div class="stats-row">
@@ -613,8 +614,8 @@ let currentAudio = null;
 let currentCard  = null;
 let npTimer      = null;
 const likes      = JSON.parse(localStorage.getItem('semes-likes') || '{}');
-let activeFilter = 'all';
-let activeSort   = 'default';
+let activeFilter = localStorage.getItem('semes-filter') || 'all';
+let activeSort   = localStorage.getItem('semes-sort')   || 'default';
 
 // ─── Play counts ──────────────────────────────────────────────────────────
 const displayCounts = {};
@@ -847,6 +848,7 @@ document.querySelectorAll('.chip[data-cat]').forEach(chip => {
     document.querySelectorAll('.chip[data-cat]').forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
     activeFilter = chip.dataset.cat;
+    localStorage.setItem('semes-filter', activeFilter);
     applyFilters();
   });
 });
@@ -856,8 +858,17 @@ document.querySelectorAll('.chip[data-sort]').forEach(chip => {
     document.querySelectorAll('.chip[data-sort]').forEach(c => c.classList.remove('active-sort'));
     chip.classList.add('active-sort');
     activeSort = chip.dataset.sort;
+    localStorage.setItem('semes-sort', activeSort);
     applyFilters();
   });
+});
+
+// Restore saved filter/sort chip active states
+document.querySelectorAll('.chip[data-cat]').forEach(c => {
+  c.classList.toggle('active', c.dataset.cat === activeFilter);
+});
+document.querySelectorAll('.chip[data-sort]').forEach(c => {
+  c.classList.toggle('active-sort', c.dataset.sort === activeSort);
 });
 
 function applyFilters() {
@@ -873,6 +884,13 @@ function applyFilters() {
       const aCount = displayCounts[a.dataset.slug] || 0;
       const bCount = displayCounts[b.dataset.slug] || 0;
       return bCount - aCount;
+    });
+    cards.forEach(c => grid.appendChild(c));
+  } else if (activeSort === 'liked') {
+    cards.sort((a, b) => {
+      const aLiked = likes[a.dataset.slug] ? 1 : 0;
+      const bLiked = likes[b.dataset.slug] ? 1 : 0;
+      return bLiked - aLiked;
     });
     cards.forEach(c => grid.appendChild(c));
   } else if (activeSort === 'default') {
@@ -938,6 +956,8 @@ themeBtn.addEventListener('click', () => {
 
 // ─── Load global counts (background) ─────────────────────────────────────
   loadGlobalCounts();
+  // Apply saved filter/sort state after grid is built
+  applyFilters();
 } // end init()
 
 loadSounds().then(() => init());
