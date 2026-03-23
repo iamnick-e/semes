@@ -665,7 +665,7 @@ async function loadGlobalCounts() {
       displayCounts[s] = Math.max(displayCounts[s] || 0, n);
     }
     sounds.forEach(s => updateCountEl(slugify(s.name)));
-    if (activeSort === 'plays') applyFilters(); // re-sort grid with fresh counts
+    applyFilters(); // re-sort/re-filter with fresh counts
   } catch (_) { /* silent */ }
 }
 
